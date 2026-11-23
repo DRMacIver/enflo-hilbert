@@ -1,0 +1,9 @@
+.lake/
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.out
+*.toc
+*.synctex.gz
+tex/build/

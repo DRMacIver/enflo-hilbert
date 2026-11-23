@@ -1,0 +1,136 @@
+\section{Extremal series and the defect}\label{sec:extremal}
+
+This section covers \paper{} (1)--(18).
+
+\subsection{The operator $V_y$}
+For $a\in\ell^2$ the series $a(T)=\sum_{j\ge0}a_jT^j$ converges in operator norm, since
+$\sum_j\abs{a_j}\kappa^j\le\norm a(1-\kappa^2)^{-1/2}$. For $y\in H$ define
+\[
+V_y:\ell^2\to H,\qquad V_ya=a(T)y=\sum_{j\ge0}a_jT^jy .
+\]
+\begin{lemma}\label{lem:V}\stproved{}
+\begin{enumerate}[label=(\roman*)]
+\item $\norm{V_y}\le\norm y(1-\kappa^2)^{-1/2}$, and $V_y$ is Hilbert--Schmidt.
+\item $V_y^*x=(\ip{x}{T^jy})_{j\ge0}$.
+\item $TV_y=V_yS$, and $V_{p(T)y}=V_yM_p=p(T)V_y$ for every polynomial $p$, where $M_p$ is
+multiplication by $p$ on $H^2$.
+\item $M_p^*V_y^*=V_y^*\,p(T)^*$.
+\item $V_y$ has dense range iff $y$ is cyclic.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(i) $\norm{V_ye_j}=\norm{T^jy}\le\kappa^j\norm y$ and $\sum_j\kappa^{2j}<\infty$. (ii) is a
+direct computation. (iii) $V_ySe_j=T^{j+1}y=TV_ye_j$, and the rest follows by linearity. (iv) is
+the adjoint of $V_yM_p=p(T)V_y$. (v) The range contains every $p(T)y$ and is contained in the
+closed span of the orbit.
+\end{proof}
+
+\subsection{The extremal problem}
+Fix $x_0\in H$ with $\norm{x_0}=1$.
+
+\begin{proposition}\label{prop:extremal}\stproved{}
+Let $y\in H$ and $\dist(x_0,\overline{V_y\ell^2})<\varepsilon<1$. Then there is a unique
+$a\in\ell^2$ of minimal norm subject to $\norm{x_0-V_ya}\le\varepsilon$. Moreover
+$\norm{x_0-V_ya}=\varepsilon$, and there is a unique $t>0$ with
+\[
+a=(V_y^*V_y+t)^{-1}V_y^*x_0=V_y^*(V_yV_y^*+t)^{-1}x_0,\qquad
+x_0-V_ya=t\,(V_yV_y^*+t)^{-1}x_0 .
+\]
+\end{proposition}
+\begin{proof}
+Write $V=V_y$. For $t>0$ the functional $F_t(b)=\norm{x_0-Vb}^2+t\norm b^2$ is strictly convex
+and coercive with unique minimiser $a_t=(V^*V+t)^{-1}V^*x_0$; the second formula for $a_t$ and
+the residual formula follow from $(V^*V+t)^{-1}V^*=V^*(VV^*+t)^{-1}$. Let
+$\rho(t)=\norm{t(VV^*+t)^{-1}x_0}$. By the spectral theorem for $VV^*\ge0$ with spectral measure
+$\nu$ of $x_0$, $\rho(t)^2=\int\bigl(\tfrac{t}{s+t}\bigr)^2d\nu(s)$. This is continuous and
+non-decreasing in $t$, tends to $\nu(\{0\})=\dist(x_0,\overline{V\ell^2})^2$ as $t\to0$ and to
+$1$ as $t\to\infty$, and is strictly increasing because $\nu((0,\infty))>0$ (else the distance
+would be $1>\varepsilon$). So there is a unique $t$ with $\rho(t)=\varepsilon$. If
+$\norm{x_0-Vb}\le\varepsilon$ and $\norm b\le\norm{a_t}$ then $F_t(b)\le F_t(a_t)$, so $b=a_t$.
+Hence $a_t$ is the unique minimiser, and its residual has norm exactly $\varepsilon$.
+\end{proof}
+
+\begin{definition}[Balanced form]\label{def:balanced}
+In the situation of Proposition~\ref{prop:extremal} put $\hat y=t^{-1/2}y$. Then
+$V_{\hat y}=t^{-1/2}V_y$ and, writing $V=V_{\hat y}$,
+\[
+R=(I+VV^*)^{-1},\qquad v=x_0-Rx_0=VV^*Rx_0,\qquad \hat a=V^*Rx_0,\qquad v=V\hat a .
+\]
+We call $v$ the \emph{extremal image} of $y$ at level $\varepsilon$, and call $y$
+\emph{balanced} (for the level $\varepsilon$) if $t=1$. This is \paper{} (14)--(15); $R$ is $[\;]^{-1}$ there.
+\end{definition}
+
+\begin{definition}[Defect]
+For $v\in H$ put $\tau(v)=\ip{v}{x_0-v}$ and
+$\Delta(v)=\sup_{j\ge0}\abs{\ip{T^jv}{x_0-v}}$.
+\end{definition}
+
+\begin{lemma}\label{lem:defect}\stproved{}
+Let $y$ be balanced with $V,R,v,\hat a$ as above and $f(z)=\sum_j\hat a_jz^j$. Then:
+\begin{enumerate}[label=(\roman*)]
+\item $\ip{Vb}{x_0-v}=\ip{b}{\hat a}$ for all $b\in\ell^2$;
+\item $\tau(v)=\norm{\hat a}^2\ge0$;
+\item $\ip{T^jv}{x_0-v}=\ip{S^j\hat a}{\hat a}
+=\frac1{2\pi}\int_0^{2\pi}e^{ij\theta}\abs{f(e^{i\theta})}^2d\theta$, so
+$\Delta(v)=\tau(v)$;
+\item $1=\norm v^2+\norm{x_0-v}^2+2\tau(v)$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(i) $x_0-v=Rx_0$ and $\ip{Vb}{Rx_0}=\ip{b}{V^*Rx_0}$. (ii) Take $b=\hat a$. (iii) $T^jv=VS^j\hat a$
+by Lemma~\ref{lem:V}(iii), then use (i); the bound is Cauchy--Schwarz. (iv) Expand
+$\norm{v+(x_0-v)}^2$ and use that $\tau(v)$ is real.
+\end{proof}
+
+\begin{remark}\label{rem:posdef}
+Lemma~\ref{lem:defect}(iii) says more than \paper{} (9): for an extremal image the sequence
+$m_j=\ip{T^jv}{x_0-v}$ is the sequence of Fourier coefficients of the non-negative function
+$\abs f^2$, with $f\in H^2$. This positivity is a real constraint that generic vectors with small
+$\Delta$ do not satisfy (compare Section~\ref{sec:model}).
+\end{remark}
+
+\subsection{From small defect to an invariant subspace}
+
+\begin{lemma}[Criterion]\label{lem:criterion}
+\stproved{} \stlean{hasNontrivialInvariantSubspace\_of\_orbit\_orthogonal}
+If $v\ne0$, $r\ne0$ and $\ip{T^jv}{r}=0$ for all $j\ge0$, then
+$\{x:\ip{T^jx}{r}=0\ \forall j\}$ is a non-trivial closed invariant subspace. In particular this
+holds for $r=x_0-v$ when $\Delta(v)=0$ and $v\notin\{0,x_0\}$.
+\end{lemma}
+
+\begin{lemma}[Limits]\label{lem:limit}\stproved{}
+$\Delta$ is locally Lipschitz: $\abs{\Delta(v)-\Delta(v')}\le(\norm{x_0-v}+\norm{v'})\norm{v-v'}$.
+Consequently, if $v_n\to v$ in norm, $\Delta(v_n)\to0$ and
+$0<\lim\norm{x_0-v_n}<1$, then $T$ is not transitive.
+\end{lemma}
+\begin{proof}
+$\ip{T^jv}{x_0-v}-\ip{T^jv'}{x_0-v'}=\ip{T^j(v-v')}{x_0-v}-\ip{T^jv'}{v-v'}$ and $\norm{T^j}\le1$.
+Then $\Delta(v)=0$, $v\ne x_0$, and $v\ne0$ because $\norm{x_0-v}<1=\norm{x_0}$; apply
+Lemma~\ref{lem:criterion}.
+\end{proof}
+
+Norm convergence is essential: $\Delta$ is not weakly continuous. The mechanism \paper{} uses to
+obtain norm convergence rests on the following exact identity.
+
+\begin{lemma}[Confinement]\label{lem:confinement}
+\stproved{} \stlean{norm\_sub\_sq\_eq\_confinement}
+For all $x_0,v,v'\in H$,
+\[
+\norm{v-v'}^2=2\re\ip{v}{x_0-v'}-2\re\tau(v')+\norm{x_0-v}^2-\norm{x_0-v'}^2 .
+\]
+\end{lemma}
+\begin{proof}
+With $r=x_0-v$, $r'=x_0-v'$ the right side is
+$2\re\ip{r'-r}{r'}+\norm r^2-\norm{r'}^2=\norm{r-r'}^2$.
+\end{proof}
+
+So if $v,v'$ are extremal images with small defect at nearly the same distance from $x_0$,
+then $\norm{v-v'}^2\approx2\re\ip{v}{x_0-v'}\approx2\re\ip{v'}{x_0-v}$ (the identity with the
+roles exchanged): controlling the single number $\ip{x_0-v}{w}$ for $w$ close to $v'$ controls
+$\norm{v-v'}$ (Lemma~\ref{lem:constraintconfines}). This is what the vectors
+$w_{00},w_{01},\dots$ of \paper{} (46) are for.
+
+\begin{lemma}[Scaling]\label{lem:scaling}\stproved{}
+For $v\in H$ with $\tau(v)$ real and $\delta\in\R$,
+$\norm{x_0-(1+\delta)v}^2=\norm{x_0-v}^2-2\delta\tau(v)+\delta^2\norm v^2$.
+\end{lemma}

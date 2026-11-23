@@ -1,0 +1,121 @@
+\section{A model operator, and an obstruction to the convergence step}\label{sec:model}
+
+Arguing by contradiction means no concrete operator satisfies all hypotheses. But the Main
+Construction of \paper{} for type 1 operators uses transitivity only through \textup{(Inj)} and
+cyclicity of the vectors involved. So its steps can be tested on any operator that is of type 1,
+satisfies \textup{(Inj)} and the standing assumptions. Here is one where everything is explicit.
+
+\subsection{The model}
+Let $\mu$ be Lebesgue measure on $[0,\kappa]$, $H=L^2(\mu)$ and $(Tu)(\lambda)=\lambda u(\lambda)$.
+
+\begin{lemma}\label{lem:model}\stproved{}
+\begin{enumerate}[label=(\roman*)]
+\item $T$ satisfies the standing assumptions and \textup{(Inj)}; $u$ is cyclic iff $u\ne0$ a.e.
+\item $T$ is of type 1, with any unit vector as $u_0$.
+\item $\Delta(v)=0$ iff $v=x_0\mathbf 1_S$ for a measurable $S\subseteq[0,\kappa]$. Write $\Sol$
+for this set of vectors.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(i) $T$ is injective with dense range as $\mu(\{0\})=0$, and not surjective as
+$0\in\operatorname{supp}\mu$. A function $d-\sum_{j\ge1}c_j\lambda^j$ with $d\ne0$,
+$\abs{c_j}\le1$ is real-analytic and not identically zero on $[0,\kappa]$, so it vanishes on a
+finite set, which is $\mu$-null; hence multiplication by it is injective. Cyclicity is the
+Weierstrass theorem.
+
+(ii) Choose $\eta>0$ with $\norm{u_0\mathbf 1_{[0,\eta]}}\le\frac1{200}$. If $\norm y=1$ and
+$\re\ip{y}{u_0}\ge\frac1{100}$ then
+$\frac1{100}\le\norm{y\mathbf 1_{[0,\eta]}}\,\norm{u_0\mathbf 1_{[0,\eta]}}+\norm{y\mathbf 1_{(\eta,\kappa]}}$,
+so $\norm{y\mathbf 1_{(\eta,\kappa]}}\ge\frac1{200}$ and
+$\ip{T^jy}{y}=\int\lambda^j\abs y^2d\mu\ge\eta^j/40000$ for every $j$. Take
+$\delta_n=\eta^n/40000$.
+
+(iii) $\ip{T^jv}{x_0-v}=\int\lambda^j\,v\,\overline{(x_0-v)}\,d\mu$. All moments of the complex
+measure $v\overline{(x_0-v)}\mu$ vanish iff the measure is zero, iff $v(\lambda)\in\{0,x_0(\lambda)\}$
+a.e.
+\end{proof}
+
+\subsection{Oscillating near-solutions}
+Assume $x_0\ne0$ a.e. Pointwise, $v\,\overline{(x_0-v)}$ is purely imaginary exactly when
+$v=x_0g$ with $\abs{g-\frac12}=\frac12$. Fix a measurable $A\subseteq[0,\kappa]$, put
+$\beta=\int_{A^c}\abs{x_0}^2d\mu$, and for $N\in\N$
+\[
+v_N=x_0\Bigl(\mathbf 1_A+\mathbf 1_{A^c}\,\tfrac{1+e^{iN\lambda}}2\Bigr).
+\]
+
+\begin{proposition}\label{prop:oscillating}\stproved{}
+As $N\to\infty$:
+\begin{enumerate}[label=(\roman*)]
+\item $\Delta(v_N)\to0$;
+\item $\norm{x_0-v_N}^2\to\beta/2$;
+\item $\liminf\dist(v_N,\Sol)^2\ge(\frac12-\frac1\pi)\beta$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+On $A^c$, $v_N\overline{(x_0-v_N)}=\frac i2\abs{x_0}^2\sin(N\lambda)$, and on $A$ it is $0$. So
+$m_j:=\ip{T^jv_N}{x_0-v_N}=\frac i2\int_{A^c}\lambda^j\abs{x_0}^2\sin(N\lambda)\,d\lambda$. For each
+fixed $j$ this tends to $0$ by the Riemann--Lebesgue lemma, and $\abs{m_j}\le\kappa^j/2$ for all
+$N$; together these give (i). For (ii),
+$\abs{x_0-v_N}^2=\abs{x_0}^2\sin^2(N\lambda/2)$ on $A^c$. For (iii), for any $S$,
+$\abs{v_N-x_0\mathbf 1_S}^2\ge\abs{x_0}^2\min(\sin^2,\cos^2)(N\lambda/2)$ on $A^c$, and the mean
+of $\min(\sin^2,\cos^2)$ is $\frac12-\frac1\pi$.
+\end{proof}
+
+\begin{corollary}\label{cor:obstruction}\stproved{}
+Let $x_0$ be as in \eqref{eq:x0} with $x_0\ne0$ a.e., and $\beta=\frac12$. Let $v_N'$ be the
+extremal image of $w=v_N$ at level $\norm{x_0-v_N}$, with extremal series $b^{(N)}$. Then, as
+$N\to\infty$: $v_N'$ is an extremal image of a cyclic vector, $\norm{x_0-v_N'}\to\frac12$,
+$\tau(v_N')\to0$, $b^{(N)}_0\to1$, $\sum_{j\ge1}\abs{b^{(N)}_j}^2\to0$, and
+\[
+\liminf_{N\to\infty}\dist(v_N',\Sol)\ge\bigl(\tfrac14-\tfrac1{2\pi}\bigr)^{1/2}>0.30 .
+\]
+\end{corollary}
+\begin{proof}
+For large $N$, $\norm{x_0-v_N}<0.7$ so $v_N\in\cC$ by Remark~\ref{rem:cone}, and $v_N\ne0$ a.e.
+Apply Proposition~\ref{prop:domination} with $\Delta(v_N)\to0$, then
+Proposition~\ref{prop:oscillating}(iii) and $\norm{v_N'-v_N}\to0$.
+\end{proof}
+
+The script \texttt{experiments/oscillating\_states.py} checks this on a discretisation
+($\kappa=\frac12$, $40000$ grid points):
+\begin{center}
+\begin{tabular}{rcccccc}
+\toprule
+$N$ & $\Delta(v_N)$ & $\norm{x_0-v_N}$ & $\abs{1-b_0}$ & $\sum_{j\ge1}\abs{b_j}^2$ & $\tau(v_N')$ & $\dist(v_N',\Sol)$\\
+\midrule
+50 & $6.6\cdot10^{-3}$ & 0.490 & $4.5\cdot10^{-2}$ & $1.8\cdot10^{-2}$ & $2.8\cdot10^{-2}$ & 0.296\\
+800 & $4.3\cdot10^{-4}$ & 0.502 & $2.6\cdot10^{-3}$ & $5.9\cdot10^{-4}$ & $1.2\cdot10^{-3}$ & 0.301\\
+12800 & $8.8\cdot10^{-5}$ & 0.500 & $3.3\cdot10^{-4}$ & $5.8\cdot10^{-5}$ & $1.4\cdot10^{-4}$ & 0.301\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{What this does and does not show}\label{ssec:consequence}
+\paper{} (p.~19--20 and the Summary) asserts for type 1 operators: once the defect is small, one
+may impose $\ip{\mathrm{ch}\,R_nx_0}{w_{00}}=0$ from a ``suitable'' stage $n_0'$ on (the only
+criterion given is that the defect be small), continue the Main
+Construction to arbitrarily small defect with $R_nx_0$ varying by less than $\delta_2^{40}$, and
+obtain a limit with $\Delta=0$; the later replacement of $w_{00}$ by $w_{01},w_{02},\dots$ only
+tightens this. The justification given uses: the type 1 inequalities, the fact that the
+current state is an extremal image with dominating leading coefficient, the smallness of the
+defect, and the non-degeneracy conditions discussed in Remark~\ref{rem:33}.
+
+The model is of type 1 and satisfies \textup{(Inj)}. By Corollary~\ref{cor:obstruction} it has
+states with all of those properties and arbitrarily small defect that are at distance $>0.30$
+from every vector with $\Delta=0$, while any admissible $\delta_2$ is at most $\kappa^2$. So,
+subject to Remark~\ref{rem:33}, the assertion is false for these states, and therefore:
+
+\begin{quote}
+\emph{The argument of \paper{} for the convergence step cannot be valid as written. Any correct
+version must use a property of the states it visits that the states $v_N'$ lack.}
+\end{quote}
+
+This is not a refutation of the theorem, nor a proof that the method is beyond repair:
+\begin{itemize}[leftmargin=2em]
+\item We have not shown that the Main Construction, started from Lemma~\ref{lem:start}, ever
+reaches a state like $v_N'$. A repair could try to identify an invariant that excludes them.
+In the model, the good states are those with $v\approx x_0g$, $g$ close to $\{0,1\}$-valued;
+the bad ones have $g$ spread around the circle $\abs{g-\frac12}=\frac12$.
+\item The states $v_N'$ are mutually far apart ($\norm{v_N-v_M}^2\to\beta/2$ as
+$N,M\to\infty$ suitably), which is the same phenomenon: small defect does not localise.
+\end{itemize}

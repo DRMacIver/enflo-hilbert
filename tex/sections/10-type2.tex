@@ -1,0 +1,121 @@
+\section{Type 2 operators}\label{sec:type2}
+
+This section covers \paper{} pp.~7--8 and 20--23. Let $T$ be transitive and of type 2; fix unit
+vectors $u_0,x_0$ and the integer $m$ of Definition~\ref{def:types}.
+
+\subsection{Reduction to a weakly null perturbation}
+Choose $y_n$ with $\norm{y_n}=1$, $\re\ip{y_n}{u_0}\ge\frac1{100}$ and
+$\sup_{j\ge m}\abs{\ip{T^jy_n}{y_n}}\to0$, and pass to a subsequence with $y_n\rightharpoonup
+y_\infty\ne0$.
+
+\begin{lemma}\label{lem:type2norm}\stproved{}
+If $y_n\to y_\infty$ in norm then $T^my_\infty$ is non-cyclic.
+\end{lemma}
+\begin{proof}
+$\ip{T^jy_\infty}{y_\infty}=0$ for $j\ge m$, so the orbit of $T^my_\infty\ne0$ is orthogonal to
+$y_\infty\ne0$; apply Lemma~\ref{lem:criterion}.
+\end{proof}
+
+Otherwise write $y_n=y_\infty+s_n$ with $s_n\rightharpoonup0$, $\norm{s_n}\le D$. Since the
+cross terms vanish in the limit,
+\begin{equation}\label{eq:type2}
+\lim_n\ip{T^js_n}{s_n}=-\ip{T^jy_\infty}{y_\infty}\qquad(j\ge m),
+\end{equation}
+which is \paper{} (20). Put $y_0=y_\infty$.
+
+\subsection{The threshold $L_0$}
+For $L\ge0$ let $N_n(L)$ be the norm of the extremal series of $y_0+Ls_n$ at level $0.3$,
+$\mathcal L=\{L\ge0:\limsup_nN_n(L)<\infty\}$ and $L_0=\sup\{L:[0,L]\subseteq\mathcal L\}$.
+(\paper{} treats $\mathcal L$ as an interval without comment; this definition avoids the issue.)
+
+\begin{proposition}\label{prop:L0}\stproved{}
+$0<L_0<\infty$.
+\end{proposition}
+\begin{proof}
+\emph{$L_0>0$.} $y_0$ is cyclic, so there is $\ell$ with $\norm{\ell(T)y_0-x_0}\le0.2$; then
+$\norm{\ell(T)(y_0+Ls_n)-x_0}\le0.3$ when $L\,D\,\norm{\ell(T)}\le0.1$.
+
+\emph{$L_0<\infty$.} By Lemma~\ref{lem:transitive}, $y_0$ is cyclic for $T^*$ and $T^{*m}$ has
+dense range, so there is a polynomial $q$ with $Q=T^{*m}q(T^*)$ and $z=Qy_0$ satisfying
+$\norm{z-x_0}\le0.1$. Let $L\in\mathcal L$, $L>0$, and let $A_n=\ell_n(T)$ with
+$\norm{\ell_n}_2\le M$ and $\norm{A_n(y_0+Ls_n)-x_0}\le0.3$. Passing to a subsequence, $\ell_n$
+converges coefficientwise, hence $A_n\to A$ in operator norm (the tails are uniformly small).
+Then:
+(i) $\ip{A_ns_n}{z}\to0$ and $\ip{A_ny_0}{A_ns_n}\to0$, because $s_n\rightharpoonup0$;
+(ii) $Q^*A_n=\sum_{j\ge m}c^{(n)}_jT^j$ with coefficients converging and dominated, so by
+\eqref{eq:type2} $\ip{A_ny_0}{Qy_0}+\ip{A_ns_n}{Qs_n}\to0$;
+(iii) $\re\ip{A_n(y_0+Ls_n)}{z}\ge\re\ip{x_0}{z}-0.3\norm z\ge0.57$.
+From (i) and (iii), $\re\ip{A_ny_0}{z}\ge0.57-o(1)$; by (ii),
+$\abs{\ip{A_ns_n}{Qs_n}}\ge0.57-o(1)$, so $\norm{A_ns_n}\ge0.56/(\norm QD)$ for large $n$. By (i),
+$\norm{A_n(y_0+Ls_n)}^2=\norm{A_ny_0}^2+L^2\norm{A_ns_n}^2+o(1)\le1.3^2$. Hence
+$L\le2.4\norm QD$.
+\end{proof}
+
+\begin{proposition}[\paper{} ``(47)'']\label{prop:47}\stoutline{}
+For every $\tau_*>0$ there are $n$ and $\varepsilon\in[0.29,0.31]$ such that the extremal image
+of $y_0+L_0s_n$ at level $\varepsilon$ has defect at most $\tau_*$.
+\end{proposition}
+\begin{proof}[Outline]
+Suppose not. Note that $y_0+L s_n\ne0$ for large $n$, and that the asymptotic statements
+of the previous proof, obtained there along a subsequence, hold along the full sequence by
+the usual sub-subsequence argument. Take $L\in\mathcal L$ with $0<L\le L_0$ and $(L_0-L)/L\le0.01$. As in the previous
+proof, $\norm{A_ny_0-x_0}^2+L^2\norm{A_ns_n}^2\le0.09+o(1)$, so
+$\norm{A_n(y_0+L_0s_n)-x_0}\le0.3+0.31\,(L_0-L)/L\le0.305$ with $\norm{\ell_n}_2\le M$.
+If all defects on levels in $[0.29,0.31]$ exceed $\tau_*$, iterating Lemma~\ref{lem:Nstep}
+(as in Lemma~\ref{lem:start}) gives series of norm at most $M'=e^{1+0.01/\tau_*}M$ reaching
+level $0.295$. The same series bring $y_0+L's_n$ within $0.3$ for all $L'\in[L_0,L_0+\eta]$,
+$\eta=0.004/(DM')$. So $[0,L_0+\eta]\subseteq\mathcal L$, contradicting the definition of $L_0$.
+\end{proof}
+
+So this part of \paper{} is essentially right, and it yields something the type 1 start does
+not: for a \emph{fixed} $x_0$, a sequence of extremal images at distance about $0.3$ from $x_0$
+with defect tending to $0$.
+
+\subsection{The endgame}
+\paper{} continues: apply Lemma~2 to make the leading coefficient dominate, then run the Main
+Construction from each of these states, $y'_{n1},y'_{n2},\dots$, until either
+\begin{enumerate}[label=(\arabic*)]
+\item for every $i$, $\sup_{j\ge m}\abs{\ip{T^jy'_{ni}}{y'_{ni}}}\ge\gamma^{1/10}\tau_n$: then
+``continue the Main Construction as for type 1 operators'' to a non-cyclic vector; or
+\item for some $i=i(n)$, $\abs{\ip{T^jy'_{ni}}{y'_{ni}}}<\gamma^{1/10}\tau_n$ for all
+$j\ge m$: then restart with $n+1$. If (2) occurs for every $n$, a weak limit $y'_\infty$ of
+$y'_{n,i(n)}$ has $\ip{T^jy'_\infty}{x_0}=0$ for $j\ge m$.
+\end{enumerate}
+
+\begin{lemma}\label{lem:type2weak}\stproved{}
+Let $(y'_n)$ be bounded with $\norm{x_0-y'_n}\le0.9$, and suppose that for a fixed $m$ and all
+$j\ge m$, $\ip{T^jy'_n}{y'_n}\to0$ and $\ip{T^jy'_n}{x_0-y'_n}\to0$. Then $T$ is not transitive.
+\end{lemma}
+\begin{proof}
+$\ip{T^jy'_n}{x_0}\to0$ for $j\ge m$. This is linear in $y'_n$, so a weak limit point
+$y'_\infty$ satisfies $\ip{T^jy'_\infty}{x_0}=0$ for $j\ge m$, and
+$\norm{x_0-y'_\infty}\le0.9$ gives $y'_\infty\ne0$. Thus the orbit of $T^my'_\infty\ne0$ is
+orthogonal to $x_0$.
+\end{proof}
+
+So alternative (2) is sound, and it is the one place in \paper{} where weak convergence
+suffices, \emph{provided $m$ does not depend on $n$}. The text says ``for some $m$''; with $m$
+fixed in advance (say the $m$ of the type 2 definition) the statement is correct.
+
+\begin{gap}[Type 2 endgame]\label{gap:type2}
+Three things are missing.
+\begin{enumerate}[label=(\alph*)]
+\item Alternative (1) invokes the type 1 Main Construction, including its convergence step,
+which is the part refuted in Section~\ref{sec:rigidity}. Moreover its hypothesis is weaker
+than type 1: a single lower bound $\gamma^{1/10}\tau_n\norm{y}^2$ for some $j\ge m$, tending to
+$0$ with $n$, instead of bounds $\delta_k$ for every window $j\ge k$ that are independent of
+the defect. The type 1 argument uses two such bounds, $\delta_1$ and $\delta_2$, ``of a larger
+order of magnitude than'' the defect.
+\item Both alternatives presuppose that the Main Construction can be run from $y'_{n1}$ at
+all (Gap~\ref{gap:secondorder}).
+\item Nothing is known about $\ip{T^jy'_{n1}}{y'_{n1}}$. Already for $y=y_0+Ls_n$,
+\eqref{eq:type2} gives $\ip{T^jy}{y}\to(1-L^2)\ip{T^jy_0}{y_0}$, which vanishes only for $L=1$;
+and $y'_{n1}$ is not $y_0+L_0s_n$ but its extremal image $A_n(y_0+L_0s_n)$, for which
+$\ip{T^jA_ny}{A_ny}$ involves $\ip{A_n^*T^jA_ns_n}{s_n}$, about which \eqref{eq:type2} says
+nothing since $A_n^*T^jA_n$ is not a power series in $T$. So alternative (2) is not automatic
+at $i=1$, and nothing forces it to occur later.
+\end{enumerate}
+\textbf{Status:} the reduction to small-defect states is sound
+(Propositions~\ref{prop:L0}, \ref{prop:47}); the conclusion depends on the type 1 construction
+and falls with it.
+\end{gap}

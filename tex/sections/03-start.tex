@@ -1,0 +1,97 @@
+\section{The two types, the choice of $x_0$, and a starting point with small defect}
+\label{sec:start}
+
+\begin{definition}[\paper{}, p.~7]\label{def:types}
+$T$ is of \emph{type 1} if there is a unit vector $u_0$ such that for every $n\ge1$ there is
+$\delta_n>0$ such that every $y\ne0$ with $\re\ip{y}{u_0}\ge\frac1{100}\norm y$ satisfies
+$\abs{\ip{T^jy}{y}}\ge\delta_n\norm y^2$ for some $j\ge n$. $T$ is of \emph{type 2} if for every
+unit vector $u_0$ there is $m\ge1$ such that for every $\delta>0$ there is $y\ne0$ with
+$\re\ip{y}{u_0}\ge\frac1{100}\norm y$ and $\abs{\ip{T^jy}{y}}<\delta\norm y^2$ for all $j\ge m$.
+\end{definition}
+
+\begin{lemma}\stproved{}
+Every operator is of exactly one of the two types.
+\end{lemma}
+\begin{proof}
+Type 2 is the formal negation of type 1.
+\end{proof}
+
+\begin{lemma}\label{lem:u1}\stproved{}
+For every unit vector $u_0$ and every $\sigma>0$ there is a unit vector $u_1\perp u_0$ with
+$\norm{T^*u_1}<\sigma$.
+\end{lemma}
+\begin{proof}
+$T^*$ is injective (as $T$ has dense range) and not bounded below (else $T^*$ would have closed
+range, which is dense because $T$ is injective, making $T^*$ and hence $T$ invertible). If $T^*$
+were bounded below on $u_0^\perp$ then $T^*(u_0^\perp)$ would be closed, so
+$T^*H=T^*(u_0^\perp)+\C T^*u_0$ would be closed, and an injective operator with closed range is
+bounded below.
+\end{proof}
+
+Throughout the type 1 analysis we fix
+\begin{equation}\label{eq:x0}
+x_0=\tfrac{\sqrt3}{2}u_0+\tfrac12u_1,\qquad y_0=\tfrac{\sqrt3}{2}u_0,\qquad
+\norm{x_0-y_0}=\tfrac12 ,
+\end{equation}
+with $u_1$ as in Lemma~\ref{lem:u1} for a $\sigma$ to be chosen. (\paper{} states this choice
+in three mutually inconsistent ways; this is the one its Lemma~1 uses.)
+
+For $y$ cyclic and $0<\varepsilon<1$ let $a^\varepsilon$ be the extremal series of
+Proposition~\ref{prop:extremal}, $v^\varepsilon=V_ya^\varepsilon$ and
+$N(\varepsilon)=\norm{a^\varepsilon}$. Clearly $N$ is non-increasing.
+
+\begin{lemma}[\paper{} (10)]\label{lem:Nstep}\stproved{}
+Let $y$ be cyclic, $0<\varepsilon\le\frac12$ and $0<\delta\le\tau(v^\varepsilon)$. Then
+$N\bigl(\varepsilon-\delta\tau(v^\varepsilon)\bigr)\le(1+\delta)N(\varepsilon)$.
+\end{lemma}
+\begin{proof}
+By Lemma~\ref{lem:scaling} and $\norm{v^\varepsilon}\le1$,
+$\norm{x_0-(1+\delta)v^\varepsilon}^2\le\varepsilon^2-2\delta\tau+\delta^2\le\varepsilon^2-\delta\tau$,
+so $\norm{x_0-(1+\delta)v^\varepsilon}\le\varepsilon-\delta\tau/(2\varepsilon)\le\varepsilon-\delta\tau$.
+Thus $(1+\delta)a^\varepsilon$ is feasible at level $\varepsilon-\delta\tau$.
+\end{proof}
+
+\begin{lemma}[Corrected form of \paper{} Lemma 1]\label{lem:start}\stproved{}
+Assume \eqref{eq:x0}, $y_0$ cyclic, $0<\eta\le\frac14$ and
+\[
+\norm{T^*u_1}<e^{-1}\sqrt{1-\kappa^2}\;\eta .
+\]
+Then there is $\varepsilon\in[\frac12-\eta,\frac12]$ with $\tau(v^\varepsilon)\le\eta$, where
+$v^\varepsilon$ is the extremal image of $y_0$ at level $\varepsilon$.
+\end{lemma}
+\begin{proof}
+\emph{Lower bound on $N$.} Let $\norm{x_0-V_{y_0}a}\le\frac12-\eta$ and
+$z=\ip{V_{y_0}a}{u_1}$. Since $\ip{x_0}{u_1}=\frac12$ we get $\abs{\frac12-z}\le\frac12-\eta$,
+so $\re z\ge\eta$. As $\ip{y_0}{u_1}=0$,
+\[
+\abs z=\Bigl|\sum_{j\ge1}a_j\ip{T^{j-1}y_0}{T^*u_1}\Bigr|
+\le\norm a\Bigl(\sum_{j\ge1}\kappa^{2(j-1)}\Bigr)^{1/2}\norm{T^*u_1}
+=\frac{\norm a\,\norm{T^*u_1}}{\sqrt{1-\kappa^2}} .
+\]
+Hence $N(\frac12-\eta)\ge\eta\sqrt{1-\kappa^2}/\norm{T^*u_1}>e$.
+
+\emph{Upper bound on $N$.} Suppose $\tau(v^\varepsilon)>\eta$ for all
+$\varepsilon\in[\frac12-\eta,\frac12]$. Fix $0<\delta\le\eta$. By Lemma~\ref{lem:Nstep} and
+monotonicity, $N(\varepsilon-\delta\eta)\le(1+\delta)N(\varepsilon)$ on that interval. Applying
+this $n=\lceil1/\delta\rceil$ times from $\varepsilon=\frac12$ gives
+$N(\frac12-\eta)\le(1+\delta)^nN(\frac12)\le e^{1+\delta}$, using $N(\frac12)\le1$ (the series
+$a=e_0$ is feasible at level $\frac12$). Letting $\delta\to0$ gives $N(\frac12-\eta)\le e$, a
+contradiction.
+\end{proof}
+
+\begin{remark}[What was wrong]
+\paper{} assumes only $\norm{T^*u_1}<(\varepsilon\theta)_0$ and tests levels down to
+$\frac12-10^{-5}(\varepsilon\theta)_0$. That gives $\max_{j\ge1}\abs{a_j}\gtrsim10^{-5}$, not the
+$10^{14}$ claimed in \paper{} (24), and no contradiction. The fix is to take $\norm{T^*u_1}$
+smaller than the width of the interval of levels by a fixed factor, as above. Since
+$\eta$ is arbitrary, the start can be made with arbitrarily small defect.
+\end{remark}
+
+\begin{remark}[The start needs no extremal argument]\label{rem:trivialstart}
+Small values of $\Delta$ are available for a trivial reason: for $j\ge1$,
+$\ip{T^jy_0}{x_0-y_0}=\frac12\ip{T^{j-1}y_0}{T^*u_1}$, and $\ip{y_0}{x_0-y_0}=0$, so
+$\Delta(y_0)\le\frac12\norm{T^*u_1}$. Proposition~\ref{prop:domination} below needs only
+$\Delta(w)$ small, so it can be applied directly to $w=y_0$, giving an extremal image with
+dominating leading coefficient and small defect without Lemma~\ref{lem:start}. The whole
+front half of \paper{} thus amounts to: $0$ is in the approximate point spectrum of $T^*$.
+\end{remark}

@@ -1,0 +1,75 @@
+\section{Summary: strengths and limitations of \paper{}}\label{sec:summary}
+
+\subsection*{What is sound}
+\begin{itemize}[leftmargin=2em]
+\item \emph{The framework} (Section~\ref{sec:extremal}). Extremal series, the defect, the
+inequality $\abs{\ip{T^jv}{x_0-v}}\le\tau$, and the criterion that a norm limit of extremal
+images with defect tending to $0$ is non-cyclic. This is a clean and, as far as we know, new
+reformulation: the problem becomes to find a norm-Cauchy sequence of approximate solutions.
+\item \emph{The confinement identity} (Lemma~\ref{lem:confinement}). Holding one inner product
+fixed does control the norm distance between approximate solutions. This is the best idea in
+the paper and it is correct.
+\item \emph{The type 1 / type 2 dichotomy} and the reductions.
+\item \emph{Dominance of the leading coefficient} (Lemmas 2--5; Section~\ref{sec:domination})
+and the \emph{Case I} tail bound (Section~\ref{sec:scaling}), after corrections.
+\item \emph{The first-order variation formulas} (Section~\ref{sec:variation}), after
+corrections.
+\item \emph{The type 2 reduction} (Section~\ref{sec:type2}): for a fixed $x_0$ it produces
+extremal images at distance about $0.3$ from $x_0$ with defect tending to $0$, and the
+weak-limit alternative of the endgame is valid when it applies.
+\end{itemize}
+
+\subsection*{What is wrong but repairable}
+Lemma~1 (constants), the bookkeeping in Lemma~2, the explicit constants in (41)--(42), the
+direction of the argument for (44), and several formula slips; see the table in
+Section~\ref{sec:gaps}. Lemma~1 is in fact unnecessary (Remark~\ref{rem:trivialstart}).
+
+\subsection*{What is wrong and not repaired}
+\begin{itemize}[leftmargin=2em]
+\item \emph{Case II} ((26)--(27)): the estimate overlooks a first-order term
+(Remark~\ref{rem:caseIIerror}), and (27) is false for type 1 operators at small defect
+(Proposition~\ref{prop:27false}). Whether the defect still decreases under the scaling
+iteration is open.
+\item \emph{The Main Construction} ((31)--(45)): only first-order; no step size, no proof that
+it continues, and a requirement of relative precision $\tau^{15}$ (Gap~\ref{gap:secondorder});
+real versus complex independence (Gap~\ref{gap:real}).
+\item \emph{The convergence step} ((46) and after): the justification is refuted.
+Theorem~\ref{thm:abstract-nogo} (machine-checked) and Corollary~\ref{cor:explicit-nogo} show
+that in an operator satisfying every hypothesis the argument uses, there are admissible states
+of arbitrarily small defect from which the confined construction cannot continue. (The
+non-degeneracy hypotheses of \paper{} are verified for these states only numerically;
+Remark~\ref{rem:33}.) The type 2 endgame depends on this step too (Gap~\ref{gap:type2}).
+\end{itemize}
+
+\subsection*{Why we think the method cannot be repaired as it stands}
+\begin{enumerate}
+\item \emph{Small defect is cheap and does not localise.} A small defect follows from
+$0\in\sigma_{\mathrm{ap}}(T^*)$ alone (Remark~\ref{rem:trivialstart}), and in the model there
+are approximate solutions of arbitrarily small defect far from every solution and far from each
+other (Corollary~\ref{cor:obstruction}).
+\item \emph{The hypotheses of the paper do not see the difference.} Type 1 constants,
+extremality, dominance and the size of the defect are the same for states that can be
+completed and states that cannot. The only quantity we know that does see it is $D_T$ of
+Section~\ref{ssec:abstract}, which is a global object.
+\item \emph{The natural construction drifts the wrong way.} Started next to a true solution in
+the model, least-norm steps lower the defect by oscillation and move away from the solution
+(Section~\ref{sec:experiments}).
+\item \emph{The confinement idea needs a solution to exist nearby.} By
+Lemma~\ref{lem:constraintconfines} the constrained sequence stays in a small ball, so it can
+succeed only if that ball contains a vector of defect $0$. In a proof by contradiction there is
+none, so the whole weight rests on proving that constrained steps always exist, and that is
+exactly the statement the model refutes for the reasons given.
+\end{enumerate}
+A proof along these lines would need a new ingredient: a rule for choosing steps and a quantity,
+monotone or at least controlled along the resulting trajectory, that certifies continuation.
+Nothing of the kind is in \paper{}. Remark~\ref{rem:where} records the limit of what we have
+shown: the obstruction is exhibited in operators with many reducing subspaces, and we have no
+information about what the construction would do for a transitive operator.
+
+\subsection*{What is machine-checked}
+In the Lean project at the repository root (Mathlib, no \texttt{sorry}): the non-cyclicity
+criterion; the confinement identity; the pointwise identities; the abstract rigidity
+inequality and its self-adjoint form; the abstract no-continuation theorem. Not formalised:
+Sections~\ref{sec:extremal}--\ref{sec:domination}, the instantiation of the no-continuation
+theorem in the model, and everything numerical. All hand proofs were re-derived once by an
+independent referee pass.

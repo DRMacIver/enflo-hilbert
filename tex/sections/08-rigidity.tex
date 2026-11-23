@@ -1,0 +1,278 @@
+\section{Rigidity in the model: small defect cannot be improved locally}\label{sec:rigidity}
+
+We keep the model of Section~\ref{sec:model} and assume $x_0\ne0$ a.e. Write $L^2_x$ for
+$L^2(\abs{x_0}^2d\lambda)$, so that $g\mapsto x_0g$ is an isometry $L^2_x\to H$. For $u=x_0h$ let
+$\nu_u=u\,\overline{(x_0-u)}\,d\lambda=(h-\abs h^2)\abs{x_0}^2d\lambda$, a complex measure of
+total variation at most $\norm u\norm{x_0-u}$ whose moments are
+$\int\lambda^jd\nu_u=\ip{T^ju}{x_0-u}$. For $z\in\C$ put $d(z)=\min(\abs z,\abs{1-z})$, so that
+$\dist(x_0g,\Sol)=\norm{d(g)}_{L^2_x}$.
+
+\begin{lemma}\label{lem:testing}\stproved{}
+Let $\varphi$ be continuous on $[0,\kappa]$ and $(u_k)$ bounded in $H$ with $\Delta(u_k)\to0$.
+Then $\int\varphi\,d\nu_{u_k}\to0$.
+\end{lemma}
+\begin{proof}
+Given $\eta>0$ pick a polynomial $p=\sum_jp_j\lambda^j$ with $\sup\abs{\varphi-p}\le\eta$. Then
+$\abs{\int\varphi\,d\nu_u}\le\eta\norm u\norm{x_0-u}+\sum_j\abs{p_j}\Delta(u)$.
+\end{proof}
+
+\begin{lemma}[Pointwise inequality]\label{lem:pointwise}
+\stproved{} \stlean{normSq\_sub\_eq\_left, normSq\_sub\_eq\_right}
+For $g,h,\varphi\in\C$ with $\re\varphi<\frac12$,
+\[
+\abs{h-g}^2+2\re\bigl(\varphi\,(h-\abs h^2)\bigr)
+=\abs g^2+(1-2\re\varphi)\abs h^2-2\re\bigl((\bar g-\varphi)h\bigr)
+\ \ge\ c_\varphi(g):=\abs g^2-\frac{\abs{\bar g-\varphi}^2}{1-2\re\varphi}.
+\]
+In the limiting cases $\varphi=\bar g$ (when $\re g\le\frac12$) and $\varphi=1-g$ (when
+$\re g\ge\frac12$) one has
+$\abs{h-g}^2+2\re(\varphi(h-\abs h^2))\ge d(g)^2$. For $0<\theta<1$ and
+$\varphi=\theta\bar g$, respectively $\varphi=\theta(1-g)$, one has $c_\varphi(g)\ge\theta\,d(g)^2$.
+\end{lemma}
+\begin{proof}
+The identity is an expansion, and the bound is the minimum over $h$ of
+$\alpha\abs h^2-2\re(\beta h)$, namely $-\abs\beta^2/\alpha$. The limiting cases are the two
+identities checked in Lean, in which the discarded term is $(1-2\re g)\abs h^2$, respectively
+$(2\re g-1)\abs{1-h}^2$. For $\varphi=\theta\bar g$ with $\re g\le\frac12$:
+$\abs{\bar g-\varphi}^2=(1-\theta)^2\abs g^2$ and $1-2\theta\re g\ge1-\theta$. The other case
+follows from the symmetry $g\mapsto1-g$, $h\mapsto1-h$, which conjugates $h-\abs h^2$.
+\end{proof}
+
+\begin{theorem}[Rigidity]\label{thm:rigidity}\stproved{}
+Let $v=x_0g\in H$ and let $(u_k)$ be bounded in $H$ with $\Delta(u_k)\to0$.
+\begin{enumerate}[label=(\roman*)]
+\item For every continuous $\varphi:[0,\kappa]\to\C$ with $\sup\re\varphi<\frac12$,
+\ $\liminf_k\norm{u_k-v}^2\ge\int c_\varphi(g)\abs{x_0}^2d\lambda$.
+\item $\liminf_k\norm{u_k-v}\ge\norm{\operatorname{Im}g}_{L^2_x}$.
+\item If $g$ is bounded and piecewise continuous (finitely many pieces, each uniformly
+continuous), then $\liminf_k\norm{u_k-v}\ge\dist(v,\Sol)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(i) Multiply Lemma~\ref{lem:pointwise} (with $h=h_k$, $u_k=x_0h_k$) by $\abs{x_0}^2$ and
+integrate: $\norm{u_k-v}^2\ge\int c_\varphi(g)\abs{x_0}^2-2\re\int\varphi\,d\nu_{u_k}$; the last
+term tends to $0$ by Lemma~\ref{lem:testing}.
+
+(ii) Take $\varphi=i\psi$ with $\psi$ real and continuous. Then
+$c_\varphi(g)=(\operatorname{Im}g)^2-(\operatorname{Im}g+\psi)^2$, so the bound in (i) is
+$\norm{\operatorname{Im}g}^2-\norm{\operatorname{Im}g+\psi}^2$ in $L^2_x$, and continuous
+functions are dense in $L^2_x$.
+
+(iii) Let $\varphi^*=\bar g$ where $\re g\le\frac12$ and $\varphi^*=1-g$ elsewhere. The two
+formulas agree where $\re g=\frac12$, so $\varphi^*$ is bounded and continuous wherever $g$ is.
+Fix $\theta<1$ and $\ell>0$, and let $\varphi$ equal $\theta\varphi^*$ outside the union
+$E_\ell$ of intervals of length $\ell$ around the finitely many discontinuities, interpolated
+linearly inside. Then $\varphi$ is continuous, $\re\varphi\le\theta/2$,
+$c_\varphi(g)\ge\theta\,d(g)^2$ outside $E_\ell$ and
+$c_\varphi(g)\ge-(1-\theta)^{-1}(2\sup\abs g+1)^2$ on $E_\ell$. Let $\ell\to0$, then
+$\theta\to1$, in (i).
+\end{proof}
+
+Part (iii) extends to every $v\in H$: both sides are $1$-Lipschitz in $v$, and bounded piecewise
+continuous $g$ are dense in $L^2_x$.
+So in the model the set of ``relaxed solutions'' (limits in any weak sense of vectors with
+defect tending to $0$) is no closer to any given vector than the set of true solutions.
+Oscillation can make the defect small, but it does not bring a state nearer to where it can
+be completed.
+
+\subsection{Consequence for the confinement step of \paper{}}
+
+\begin{lemma}[The constraint of \paper{} confines]\label{lem:constraintconfines}\stproved{}
+Let $v'$ and $v$ be extremal images, $y'$ a unit vector with
+$\norm{v'/\norm{v'}-y'}\le\vartheta$, and $w=y'+e$ with $\norm e\le\vartheta$. If
+$\ip{x_0-v}{w}=\ip{x_0-v'}{w}$ then
+\[
+\norm{v-v'}^2\le2\tau(v')+8\vartheta+\bigl|\norm{x_0-v'}^2-\norm{x_0-v}^2\bigr| .
+\]
+\end{lemma}
+\begin{proof}
+By Lemma~\ref{lem:confinement} with the roles of $v,v'$ exchanged,
+$\norm{v-v'}^2=2\re\ip{v'}{x_0-v}-2\tau(v)+\norm{x_0-v'}^2-\norm{x_0-v}^2$, and $\tau(v)\ge0$.
+Since $\norm{v'}\le1$, $\norm{x_0-v}\le1$ and $\norm{x_0-v'}\le1$,
+$\re\ip{v'}{x_0-v}\le\norm{v'}\re\ip{w}{x_0-v}+2\vartheta
+=\norm{v'}\re\ip{w}{x_0-v'}+2\vartheta\le\re\ip{v'}{x_0-v'}+4\vartheta=\tau(v')+4\vartheta$.
+\end{proof}
+
+In \paper{}, $w=w_{00}$ of (46), $y'=y_{n_0'}/\norm{y_{n_0'}}$, and
+$\vartheta\lesssim\gamma^{1/2}+\delta_2^{100}$ by Proposition~\ref{prop:domination}; the
+distance is allowed to drift by at most $10\tau(v')$.
+
+\begin{theorem}[No continuation from oscillating states]\label{thm:nogo}\stproved{}
+In the model, let $v_N'$ be the states of Corollary~\ref{cor:obstruction}, with $A$ an interval.
+For every $\rho<0.30$ and all large $N$ there is $c=c(N,\rho)>0$ such that every $u\in H$ with
+$\norm{u-v_N'}\le\rho$ has $\Delta(u)\ge c$. In particular no sequence of extremal images
+starting at $v_N'$ and satisfying the constraint of Lemma~\ref{lem:constraintconfines} with
+$\vartheta\le10^{-3}$ and squared-distance drift at most $11\tau(v_N')$ can have defect tending
+to $0$.
+\end{theorem}
+\begin{proof}
+$v_N'=x_0g'$ with $g'=b^{(N)}(\lambda)g_N(\lambda)$ bounded and piecewise continuous, so
+Theorem~\ref{thm:rigidity}(iii) applies: a sequence in the ball with $\Delta\to0$ would have
+$\rho\ge\dist(v_N',\Sol)$, which exceeds $0.30$ for large $N$ by
+Corollary~\ref{cor:obstruction}. For the second statement, Lemma~\ref{lem:constraintconfines}
+gives $\norm{u-v_N'}^2\le13\tau(v_N')+0.008<0.09$ for large $N$ (the drift allowed by
+\paper{} (45) is $10\tau$ for $\ip{Rx_0}{x_0}=\norm{Rx_0}^2+\tau$, hence $11\tau$ for the squared
+distance).
+\end{proof}
+
+\begin{remark}[What this means for a proof by contradiction]
+In a transitive operator there are no solutions other than $0$ and $x_0$. Since the constraint
+confines the trajectory, the claim of \paper{} that constrained descent steps exist all the way
+to defect $0$ is precisely the claim that leads to the contradiction, and it is justified there
+only by the type 1 inequalities. Theorem~\ref{thm:nogo} shows that the type 1 inequalities,
+\textup{(Inj)}, extremality, dominance of the leading coefficient and smallness of the defect
+together do not imply it.
+\end{remark}
+
+\begin{remark}[The remaining hypotheses of \paper{}: (33) and the four coefficients]\label{rem:33}
+Besides extremality, dominance and small defect, \paper{} assumes at the start of the Main
+Construction a lower bound on the tail, $\sum_{j\ge1}\abs{\hat a_j}^2\ge\frac12\tau^{16}$ (from
+(33)), and that at least four of the coefficients $\hat a_j$,
+$\hat b_j=\ip{R^2x_0}{T^jy}$ with $j\ge2$ exceed $\tau^{30}$ (Remark after (27)). These are
+non-degeneracy conditions with thresholds that are astronomically small powers of the defect.
+\textbf{We have not proved them for the states $v_N'$.} Numerically they hold with enormous
+margin: in the table of Section~\ref{sec:model} the normalised tail is of the order of $\tau$
+itself (about $0.4\,\tau$ at $N=12800$, against a threshold of order $10^{-58}$), and
+\texttt{experiments/oscillating\_states.py} prints the leading $\hat a_j$, $\hat b_j$. A proof
+would need a quantitative form of Lemma~\ref{lem:h} in the model, so that the defect of $v_N'$
+can be compared with a power of its tail; Proposition~\ref{prop:caseI} does not suffice, because
+it bounds the tail in terms of the defect of the vector one starts from, not of the resulting
+extremal image. So Theorem~\ref{thm:nogo} is, strictly, a no-go for states that satisfy the
+structural hypotheses of \paper{} and, as far as numerics can tell, its non-degeneracy
+hypotheses.
+\end{remark}
+
+\subsection{An abstract form, valid for every operator}\label{ssec:abstract}
+
+The pointwise inequality is a special case of an identity that needs no spectral theory.
+
+\begin{theorem}[Abstract rigidity]\label{thm:abstract-rigidity}
+\stproved{} \stlean{rigidity\_inequality, norm\_inner\_sum\_pow\_le}
+Let $T$ be any bounded operator on $H$, $\varphi(z)=\sum_{j<n}\varphi_jz^j$ a polynomial,
+$B=\varphi(T)$ and $P=I-B-B^*$. Then for all $u,v\in H$
+\[
+\norm{u-v}^2+2\re\ip{Bu}{x_0-u}=\norm v^2+\ip{Pu}{u}-2\re\ip{u}{v-B^*x_0}.
+\]
+If $P\ge0$ and $v-B^*x_0=Pz$ for some $z\in H$, then
+\[
+\norm{u-v}^2\ \ge\ \norm v^2-\re\ip{v-B^*x_0}{z}-2\Bigl(\sum_j\abs{\varphi_j}\Bigr)\Delta(u)
+\qquad\text{for all }u\in H .
+\]
+\end{theorem}
+\begin{proof}
+The identity is an expansion using $\re\ip{Bu}{x_0}=\re\ip{u}{B^*x_0}$ and
+$2\re\ip{Bu}{u}=\ip{(B+B^*)u}{u}$. If $P\ge0$ and $v-B^*x_0=Pz$ then
+$\ip{Pu}{u}-2\re\ip{u}{Pz}=\ip{P(u-z)}{u-z}-\ip{Pz}{z}\ge-\re\ip{v-B^*x_0}{z}$. Finally
+$\abs{\ip{Bu}{x_0-u}}\le\sum_j\abs{\varphi_j}\abs{\ip{T^ju}{x_0-u}}$.
+\end{proof}
+
+\begin{definition}
+$D_T(v)^2=\sup\bigl\{\norm v^2-\re\ip{v-\varphi(T)^*x_0}{z}\bigr\}$ over polynomials
+$\varphi$ and $z\in H$ with $I-2\re\varphi(T)\ge0$ and $(I-2\re\varphi(T))z=v-\varphi(T)^*x_0$.
+\end{definition}
+
+\begin{corollary}\label{cor:DT}\stproved{}
+For every sequence $(u_k)$ in $H$ with $\Delta(u_k)\to0$ and every $v$,
+$\liminf\norm{u_k-v}\ge D_T(v)$. In particular $D_T=0$ on $\Sol$, and for each $\rho<D_T(v)$
+the defect is bounded below on the ball of radius $\rho$ about $v$.
+\end{corollary}
+
+\begin{remark}[What is known about $D_T$]\label{rem:DT}
+\begin{enumerate}[label=(\alph*)]
+\item In the model, $D_T(v)=\dist(v,\Sol)$ for $v=x_0g$ with $g$ bounded and piecewise
+continuous: this is Theorem~\ref{thm:rigidity}(iii), since the continuous $\varphi$ there can
+be replaced by polynomials uniformly close to them, and $B=\varphi(T)$ is multiplication by
+$\varphi$, $P$ multiplication by $1-2\re\varphi$.
+\item If $T$ is self-adjoint and $\psi$ is a real polynomial, take $\varphi=i\psi$: then $P=I$,
+$z=v+i\psi(T)x_0$ and the bound reads
+$\norm{u-v}^2\ge\norm v^2-\norm{v+i\psi(T)x_0}^2-2\norm\psi_{\ell^1}\Delta(u)$. Optimising the
+scale of $\psi$ gives $D_T(v)\ge\abs{\operatorname{Im}\ip{v}{\psi(T)x_0}}/\norm{\psi(T)x_0}$:
+any component of $v$ along $i\,\psi(T)x_0$ is an obstruction. This is the general form of
+Theorem~\ref{thm:rigidity}(ii).
+\item For self-adjoint $T$ the same pointwise argument in a direct-integral decomposition
+should give $D_T(v)=\dist(v,\Sol)$ in general; we have not written this out.
+\item For non-self-adjoint $T$ we know only the inequality. The proof in the model uses that
+every bounded continuous function on the spectrum is a limit of polynomials in $T$, so that
+$\varphi(T)$ can be adapted to $v$. When $T^*$ is not in the closed algebra generated by $T$
+(for example for the bilateral shift) the supremum is over a much smaller family, and
+$D_T(v)$ may well be smaller than the distance to $\Sol$.
+\end{enumerate}
+\end{remark}
+
+\begin{remark}[Why this does not lead to a proof of the theorem]\label{rem:noproof}
+Corollary~\ref{cor:DT} produces \emph{lower} bounds for the defect near a given state. For a
+transitive operator such bounds are exactly what one expects to be true: there
+$\Sol=\{0,x_0\}$, and the defect is bounded below on every norm-compact set avoiding these two
+points. A contradiction with transitivity needs the opposite: a norm-Cauchy sequence along which
+the defect tends to $0$. That is what the Main Construction was meant to supply.
+Theorem~\ref{thm:abstract-rigidity} can certify that a given state admits no such continuation
+in a given ball; it cannot produce one. Its role is therefore diagnostic: it is the tool that
+shows the confinement step of \paper{} to be unjustified, and it gives a test any proposed
+repair must pass, namely that the states it visits have $D_T$ smaller than the confinement
+radius.
+\end{remark}
+
+\subsection{The oscillating states in abstract form}\label{ssec:abstract-nogo}
+
+The states $v_N$ (with $A=\emptyset$) are $\frac12(x_0+Wx_0)$ for the unitary
+$W=e^{iNT}$. In this form the no-continuation theorem needs no spectral theory and has an
+explicit constant.
+
+\begin{theorem}[Abstract no-continuation]\label{thm:abstract-nogo}
+\stproved{} \stlean{oscillating\_lower\_bound, oscillating\_ball\_bound, oscillating\_defect}
+Let $T$ be a bounded operator on $H$ and $W$ an isometry of $H$. Put $v=\frac12(x_0+Wx_0)$ and
+$C=\frac12(W+W^*)$.
+\begin{enumerate}[label=(\roman*)]
+\item For every $u\in H$,
+$\norm{u-v}^2\ge\frac14\bigl(\norm{x_0}^2-\norm{Cx_0}^2\bigr)
++\frac12\re\ip{(W-W^*)u}{x_0-u}$.
+\item If $W=\sum_kc_kT^k$ and $W^*=\sum_kc_k'T^k$ in operator norm with
+$\sum_k\abs{c_k}\le K$ and $\sum_k\abs{c_k'}\le K$, then for every $u\in H$
+\[
+\norm{u-v}^2\ \ge\ \tfrac14\bigl(\norm{x_0}^2-\norm{Cx_0}^2\bigr)-K\,\Delta(u).
+\]
+\item If $W$ is unitary and commutes with $T$, then
+$\ip{T^jv}{x_0-v}=\frac14\ip{T^j(W-W^*)x_0}{x_0}$ for all $j$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(i) Apply Theorem~\ref{thm:abstract-rigidity} in the form with a general bounded $B$ in place
+of $\varphi(T)$, with $B=-\frac14(W-W^*)$. Then $B^*=-B$, so $P=I$ and $z=v+Bx_0
+=\frac12x_0+\frac12Cx_0$. Since $\norm{Wx_0}=\norm{x_0}$,
+$\norm v^2=\frac12\norm{x_0}^2+\frac12\re\ip{Wx_0}{x_0}$ and
+$\norm z^2=\frac14\norm{x_0}^2+\frac12\re\ip{Wx_0}{x_0}+\frac14\norm{Cx_0}^2$.
+(ii) $\abs{\ip{Wu}{x_0-u}}\le\sum_k\abs{c_k}\abs{\ip{T^ku}{x_0-u}}\le K\Delta(u)$, likewise for
+$W^*$. (iii) Expand, using $\ip{Wa}{Wb}=\ip ab$ and $WT^j=T^jW$.
+\end{proof}
+
+\begin{corollary}[An explicit no-continuation bound]\label{cor:explicit-nogo}\stproved{}
+Let $T$ be self-adjoint, $N>0$, $W=e^{iNT}$ and $v_N=\frac12(x_0+Wx_0)$. Then
+$K=e^{N}$ is admissible in (ii), $\norm{x_0}^2-\norm{Cx_0}^2=\norm{\sin(NT)x_0}^2$, and
+\[
+\Delta(u)\ \ge\ e^{-N}\Bigl(\tfrac14\norm{\sin(NT)x_0}^2-\norm{u-v_N}^2\Bigr)
+\quad\text{for all }u,\qquad
+\Delta(v_N)=\tfrac12\sup_j\abs{\ip{T^j\sin(NT)x_0}{x_0}} .
+\]
+In the model, $\norm{\sin(NT)x_0}^2\to\frac12$ and $\Delta(v_N)\to0$ as $N\to\infty$ by the
+Riemann--Lebesgue lemma. So for large $N$ the defect of $v_N$ is as small as we like, while
+every $u$ with $\norm{u-v_N}\le0.3$ has $\Delta(u)\ge e^{-N}(\frac18-0.09-o(1))>0$.
+\end{corollary}
+\begin{proof}
+$W=\sum_k\frac{(iN)^k}{k!}T^k$ and $W^*=e^{-iNT}$ since $T=T^*$; $C=\cos(NT)$ and
+$\cos^2+\sin^2=1$; and $W-W^*=2i\sin(NT)$.
+\end{proof}
+
+The Lean development checks Theorem~\ref{thm:abstract-nogo} in full. The instantiation
+$W=e^{iNT}$ and the two limits in the model (which use only the Riemann--Lebesgue lemma) are
+proved here by hand and are not yet formalised.
+
+\begin{remark}[Where the obstruction lives]\label{rem:where}
+Hypothesis (ii) asks for a non-scalar unitary $W$ such that $W$ and $W^*$ both lie in the
+$\ell^1$-closed algebra generated by $T$. For self-adjoint $T$ there are many. A transitive
+operator has none of the form $e^{iA}$ with $A$ self-adjoint in the commutant, since the
+spectral subspaces of a non-scalar such $A$ would be invariant. So this particular family of
+oscillating states does not exist for a transitive operator. The point of the no-go theorem is
+therefore about the \emph{argument}: \paper{} derives continuation from hypotheses that the
+model satisfies, and continuation fails there. It does not show that continuation fails for a
+transitive operator, where the statement is in any case expected to be vacuous.
+\end{remark}

@@ -1,0 +1,139 @@
+\section{Open gaps and what a repair must prove}\label{sec:gaps}
+
+\subsection{Errors already repaired}
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+In \paper{} & Problem & Repaired in\\
+\midrule
+Lemma 1, (24) & bound on $\max\abs{a_j}$ off by $\sim10^{19}$ & Lemma~\ref{lem:start}\\
+Choice of $x_0$ & three inconsistent definitions & \eqref{eq:x0}\\
+Lemma 2 & missing factor, strictness, implicit infimum & Proposition~\ref{prop:domination}\\
+(25) & exponent and normalisation unclear & Proposition~\ref{prop:caseI}\\
+(27) and Case II & argument invalid (Remark~\ref{rem:caseIIerror}) & not repaired; Proposition~\ref{prop:caseII}\\
+(47) & interval structure of $\mathcal L$ assumed & Propositions~\ref{prop:L0}, \ref{prop:47}\\
+(29$'$), (30), (37) & slips in formulas & Lemma~\ref{lem:variation}\\
+(41), (42) & explicit constants unjustified & see Gap~\ref{gap:indep}\\
+(44) & deduced from (38) through the compact $V_y$ & see Gap~\ref{gap:secondorder}\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{The statement a repair must establish}
+Everything up to the Main Construction reduces the type 1 case to the following.
+
+\begin{target}[Local improvement]\label{target:lip}\stopen{}
+Let $T$ be transitive and of type 1, with $x_0$ as in \eqref{eq:x0}. There exist a set
+$\mathcal A$ of extremal images, $\tau_0>0$ and a non-decreasing $\rho:(0,\tau_0]\to(0,\infty)$ with
+$\sum_{k\ge0}\rho(2^{-k}\tau_0)<\frac1{10}$ such that:
+\begin{enumerate}[label=(\alph*)]
+\item $\mathcal A$ contains some $v$ with $\tau(v)\le\tau_0$ and
+$0.4\le\norm{x_0-v}\le0.6$;
+\item every $v\in\mathcal A$ with $\tau(v)\le\tau_0$ has some $v'\in\mathcal A$ with
+$\tau(v')\le\frac12\tau(v)$ and $\norm{v-v'}\le\rho(\tau(v))$.
+\end{enumerate}
+\end{target}
+
+\begin{proposition}\stproved{}
+If Target~\ref{target:lip} holds for $T$ then $T$ is not transitive.
+\end{proposition}
+\begin{proof}
+Iterating (b) from (a) gives $v_k$ with $\tau(v_k)\le2^{-k}\tau_0$ and, as $\rho$ is
+non-decreasing, $\norm{v_k-v_{k+1}}\le\rho(2^{-k}\tau_0)$: a Cauchy sequence of extremal images with $\Delta=\tau\to0$ and
+$\norm{x_0-v_n}\in[0.3,0.7]$; apply Lemma~\ref{lem:limit}.
+\end{proof}
+
+Lemma~\ref{lem:start} and Proposition~\ref{prop:domination} supply (a) for the class of extremal
+images with dominating leading coefficient. Section~\ref{sec:model} shows that (b) is
+\emph{false} for that class in the model operator. So the whole difficulty is to find
+$\mathcal A$: small enough to exclude oscillating states, and preserved by an improvement step.
+
+\subsection{Gaps}
+
+\begin{gap}[The improvement step is only first order]\label{gap:secondorder}
+\paper{} (31)--(45) chooses $r$ from first-order formulas. Missing: (1) a bound on second-order
+terms and a choice of step size; (2) a proof that the process reaches $\tau\to0$, for which
+\paper{} offers (34), which is not a precise statement; (3) maintenance of (33), which needs
+$\abs{\hat a_0}^2/\tau$ tracked to relative precision $\tau^{15}$; (4) a correct passage from
+near-dependence to (44): near-dependence must be measured in $H^2$, not after applying $V_y$.
+\textbf{Status:} open. A flow formulation ($\dot y=r_t(T)y$) would handle (1) and (2) if the
+first-order problem were uniformly solvable.
+\end{gap}
+
+\begin{gap}[Real versus complex independence]\label{gap:real}
+See Remark~\ref{rem:real}. \textbf{Status:} open, probably repairable when $f$ is invertible in
+$H^\infty$, at the cost of one real degree of freedom.
+\end{gap}
+
+\begin{gap}[The independence claim behind convergence]\label{gap:indep}
+\paper{} claims that $VV^*(x_0-Rx_0)$, $VV^*w_{00}$ and $y$ are ``$\delta_2$-linearly
+independent'' because of the type 1 bounds at two indices $j_1,j_2$. With $y'=y/\norm y$ and
+$c_j=\ip{y'}{T^jy'}$, at the stage where $w_{00}$ is introduced these vectors are, up to
+normalisation and errors of size $\gamma$,
+\[
+\sum_{j\ge0}c_jT^jy',\qquad
+\sum_{j\ge0}c_jT^jy'+\delta_2^{100}\sum_{j\ge0}(c_{j+j_1}+c_{j+j_2})T^jy',\qquad y' .
+\]
+They are dependent exactly when $(c_{j+j_1}+c_{j+j_2})_{j\ge1}$ is proportional to
+$(c_j)_{j\ge1}$, for instance when $c_j=\rho^j$. Type 1 bounds the size of some $c_j$ from below
+and says nothing about this. Exact proportionality would make
+$T(T^{j_1}+T^{j_2}-\bar\lambda)y'$ non-cyclic (using injectivity of power series in $T$,
+Lemma~\ref{lem:transitive}(v), for ``exactly''), but a quantitative version cannot be obtained by
+compactness because $y'\mapsto c_j$ is not weakly continuous. \textbf{Status:} open, and
+superseded by Theorem~\ref{thm:nogo}: in the model there are states satisfying every hypothesis
+used, from which the constrained construction provably cannot reach small defect. So the
+independence must degenerate there, whatever the type 1 constants are.
+\end{gap}
+
+Gap~\ref{gap:type2} (the type 2 endgame) is stated in Section~\ref{sec:type2}.
+
+\subsection{Assessment}
+The type 1 half of \paper{} has the form: \emph{local data at the current state (type 1
+inequalities, extremality, dominance, small defect) guarantee that a constrained descent step
+exists, hence the construction continues to defect $0$ and converges.} Theorem~\ref{thm:nogo}
+shows this implication is false in an operator satisfying all the hypotheses used. The
+experiments of Section~\ref{sec:experiments} indicate that the construction, read naturally,
+drifts towards the states where it fails even when started next to a solution.
+
+We therefore regard the argument as not repairable \emph{in its present form}: a correct proof
+would need a selection rule for the steps and an invariant along the resulting trajectory that
+guarantees continuation, and nothing in \paper{} points to either. This is an assessment of the
+argument, not of the theorem.
+
+\subsection{Plan and status}
+\begin{enumerate}
+\item \emph{Strengthen the no-go statement.}
+\begin{itemize}
+\item Hypothesis (33) and the four-coefficient condition for the oscillating states:
+\textbf{verified numerically only}, with a margin of some fifty orders of magnitude
+(Remark~\ref{rem:33}). A proof needs a quantitative form of Lemma~\ref{lem:h} in the model;
+we have not attempted it, since these are open non-degeneracy conditions and the margin is
+so large.
+\item Lean: the abstract inequality behind the no-go (Theorem~\ref{thm:abstract-rigidity}),
+its self-adjoint form, the pointwise identities, and the abstract no-continuation theorem
+(Theorem~\ref{thm:abstract-nogo}) are \textbf{checked}. \textbf{Not formalised}: the
+instantiation $W=e^{iNT}$ and the two Riemann--Lebesgue limits in the model
+(Corollary~\ref{cor:explicit-nogo}), and Corollary~\ref{cor:obstruction}, which depends on
+Proposition~\ref{prop:domination}. These are routine but would require the multiplication
+operator on $L^2$ and the operator exponential in Mathlib; we judged the abstract theorem to
+be the part worth checking by machine.
+\end{itemize}
+\item \emph{Does rigidity generalise?} \textbf{Resolved as far as we can take it}: the
+inequality holds for every operator (Theorem~\ref{thm:abstract-rigidity}); it is sharp in the
+model; for non-self-adjoint operators only the inequality is known
+(Remark~\ref{rem:DT}); and it cannot by itself yield the theorem
+(Remark~\ref{rem:noproof}).
+\item \emph{Type 2.} \textbf{Resolved}: the reduction is sound, the endgame depends on the
+type 1 construction (Section~\ref{sec:type2}, Gap~\ref{gap:type2}).
+\item \emph{Section~\ref{sec:scaling}.} Case I is \textbf{proved}. Case II is
+\textbf{not provable as argued}: the paper's argument overlooks a first-order term
+(Remark~\ref{rem:caseIIerror}) and the claimed estimates fail numerically by orders of
+magnitude in nearby situations.
+\item \emph{Formalising Sections~\ref{sec:extremal}--\ref{sec:domination}.} Deferred: these
+are the sound front half of an argument whose back half fails, so formalising the no-go has
+priority.
+\item \emph{Independent check.} A separate referee pass re-derived every proved statement
+and constant in this document; its corrections are incorporated (notably the monotonicity of
+$\rho$ in Target~\ref{target:lip}, the status of (33), and Proposition~\ref{prop:27false}).
+The numerical tables were not independently re-run.
+\end{enumerate}

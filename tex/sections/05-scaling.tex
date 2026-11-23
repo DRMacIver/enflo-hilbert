@@ -1,0 +1,130 @@
+\section{A lower bound on the tail (Case I), and the scaling iteration (Case II)}
+\label{sec:scaling}
+
+This section covers \paper{} (25)--(27). Throughout, $w$ is a cyclic extremal image with
+$\tau=\tau(w)\in(0,\frac14]$ and $\varepsilon=\norm{x_0-w}<1$; we write
+$m_j=\ip{T^jw}{x_0-w}$, so $m_0=\tau$, $\abs{m_j}\le\min(\tau,\kappa^j)$ and $\norm w\le1$
+(Lemma~\ref{lem:defect}), and
+\[
+\mu=\Bigl(\sum_{j\ge1}\abs{m_j}^2\Bigr)^{1/2}\le\tau\,(L_\tau+2)^{1/2},\qquad
+L_\tau=\log_{1/\kappa}(1/\tau).
+\]
+For a series $c$ with $c_0=1-d$ and $q=dw-\sum_{j\ge1}c_jT^jw$ we have the basic expansion
+\begin{equation}\label{eq:basic}
+\norm{x_0-V_wc}^2=\varepsilon^2+\norm q^2+2\re\Bigl(d\tau-\sum_{j\ge1}c_jm_j\Bigr).
+\end{equation}
+
+\begin{proposition}[Case I]\label{prop:caseI}\stproved{}
+Suppose $\abs{m_k}\ge\theta$ for some $k\ge1$, where $0<\theta\le\tau$. Then the extremal series
+$b$ of $w$ at level $\varepsilon$ satisfies
+\[
+\norm b^2\le1-\frac{\theta^2}{8\tau},\qquad
+\sum_{j\ge1}\abs{b_j}^2\ge\frac{\theta^4}{256\,\mu^2}\ge\frac{\theta^4}{256\,\tau^2(L_\tau+2)} .
+\]
+\end{proposition}
+\begin{proof}
+Let $\eta=\theta/2$, $s=\theta^2/(8\tau)$ and $c=(1-s)e_0+\eta\omega e_k$ with $\abs\omega=1$,
+$\omega m_k=\abs{m_k}$. By \eqref{eq:basic},
+$\norm{x_0-V_wc}^2\le\varepsilon^2+(s+\eta)^2+2s\tau-2\eta\theta$. Since $s\le\eta/4$,
+$(s+\eta)^2\le\frac{25}{16}\eta^2\le\frac32\eta\theta$ and $2s\tau=\frac12\eta\theta$, so $c$ is
+feasible. As $\tau\le\frac14$ we have $\eta^2=\theta^2/4\le s/2$ and $s\le\frac1{32}$, so
+$\norm c^2=1-2s+s^2+\eta^2\le1-s$.
+
+Now let $b$ be the minimiser, $b_0=1-d$, $\sigma^2=\sum_{j\ge1}\abs{b_j}^2$. From
+$\abs{1-d}^2+\sigma^2\le1-s$ we get $\re d\ge s/2$. From \eqref{eq:basic} and feasibility,
+$0\ge2\tau\re d-2\sigma\mu$. Hence $\sigma\ge\tau s/(2\mu)=\theta^2/(16\mu)$.
+\end{proof}
+
+With $\theta=\tau^4$ this gives $\sum_{j\ge1}\abs{b_j}^2\gtrsim\tau^{14}/L_\tau$, in line with
+\paper{} (25). Note that the bound is in terms of the defect of $w$, not of the new extremal
+image $V_wb$, whose defect is only bounded above (Proposition~\ref{prop:domination}(iv)).
+
+\subsection*{Case II: the argument of \paper{} is not valid}
+Case II is the situation $\abs{m_j}<\tau^4$ for all $j\ge1$. \paper{} takes $\delta=\tau/10$,
+lets $w^+$ be the extremal image of $w$ at level $\norm{x_0-(1+\delta)w}$, and claims
+\begin{equation}\label{eq:claim27}
+\norm{w^+-(1+\delta)w}<\tau^2\quad\text{\paper{} (27)},\qquad\tau(w^+)<(1-\tfrac1{20})\tau ,
+\end{equation}
+so that iterating gives a norm-convergent sequence with defect tending to $0$.
+
+\begin{remark}[The error]\label{rem:caseIIerror}
+The justification of (27) is that lowering $b_0$ below $1+\delta$ must be compensated by
+coefficients $b_j$, $j\ge1$, whose effect on the distance is governed by $m_j$, which is tiny.
+But the expansion has to be made around $(1+\delta)w$, not around $w$, and
+\[
+\ip{T^jw}{x_0-(1+\delta)w}=m_j-\delta\ip{T^jw}{w},
+\]
+whose second term has size $\delta\kappa^j$, far larger than $\tau^4$. Writing
+$b_0=1+\delta-s$, $z=\sum_{j\ge1}b_jT^jw$ and $\sigma$ for the tail norm, minimality and
+feasibility give
+\[
+\sigma^2+\abs s^2\le2(1+\delta)\re s,\qquad
+\re s\le\frac{\delta^2\norm w^2}{2\tau}+\frac{\sigma\mu}{\tau}
+=\frac{\delta\norm w^2}{20}+\frac{\sigma\mu}{\tau},
+\]
+(the second by minimising $\norm z^2-2\re((s-\delta)\ip wz)$ over all $z\in H$). These allow
+$s$ of order $\delta/20$ and a tail $\sigma$ of order $\sqrt\delta$, and give no control of the
+sign of $\tau(w^+)-\tau$. Proposition~\ref{prop:27false} shows that $s$ really is of order
+$\delta$ for type 1 operators, so that (27) is false.
+\end{remark}
+
+\begin{proposition}[(27) is false for type 1 operators]\label{prop:27false}\stproved{}
+In Case II with $\tau\le\frac1{10}$, let $j\ge1$, $p=\abs{\ip{T^jw}{w}}$ and $q=\norm{T^jw}$,
+and suppose $p\ge45\tau^3$, $q^2\ge8\tau$ and $p^2/q^2\ge100\,\tau\,(L_\tau+2)$. Then
+\[
+\norm{w^+-(1+\delta)w}\ \ge\ \frac{\tau\,p^2}{100\,q^2}.
+\]
+In particular, if $T$ is of type 1 and $w/\norm w$ lies in the cone of
+Definition~\ref{def:types}, then $p/q\ge2\delta_1\norm w$ for a suitable $j$, and
+$\norm{w^+-(1+\delta)w}\ge\frac1{25}\delta_1^2\norm w^2\tau>\tau^2$ as soon as
+$\tau<\frac1{25}\delta_1^2\norm w^2$ (and $\tau$ is small enough for the three conditions).
+\end{proposition}
+\begin{proof}
+Let $\abs\omega=1$ with $\omega\ip{T^jw}{w}=p$, $c=\delta p/q^2$, $s=\delta p^2/(40q^2)$ and
+$b'=(1+\delta-s)e_0-c\,\omega e_j$. Expanding around $(1+\delta)w$,
+\[
+\norm{x_0-V_wb'}^2-\norm{x_0-(1+\delta)w}^2
+=c^2q^2-2c\delta p+s^2\norm w^2+2scp+2s(\tau-\delta\norm w^2)+2c\re(\omega m_j).
+\]
+Here $c^2q^2-2c\delta p=-\delta^2p^2/q^2$, $2s\tau=\frac12\delta^2p^2/q^2$,
+$2scp\le2s\delta\norm w^2$ (as $p\le q\norm w$), $s^2\norm w^2\le\delta^2p^2/(1600q^2)$ and
+$2c\abs{m_j}\le2\delta p\tau^4/q^2$. So the right side is at most
+$-0.49\,\delta^2p^2/q^2+2\delta p\tau^4/q^2\le0$, and $b'$ is feasible. Since
+$c^2=4\tau s/q^2\le s/2$, $\norm{b'}^2\le(1+\delta)^2-1.4\,s$.
+
+For the minimiser $b$, with $b_0=1+\delta-s^*$, tail norm $\sigma$ and
+$\xi=(1+\delta)w-w^+$: minimality gives $2(1+\delta)\re s^*\ge1.4s+\sigma^2$, so
+$\re s^*\ge0.6s$ and $\sigma^2\le2.2\re s^*$. Feasibility gives
+$0\ge2\tau\re s^*-2\sigma\mu-2\delta\norm\xi\norm w$, that is
+$\norm\xi\ge10\re s^*-10\sigma\mu/\tau$. In Case II, $\mu\le\tau^4(L_\tau+2)^{1/2}$, and the
+third hypothesis makes $10\sigma\mu/\tau\le\re s^*$. Hence
+$\norm\xi\ge9\re s^*\ge5.4\,s=5.4\,\tau p^2/(400q^2)$.
+For type 1, some $j\ge1$ has $p\ge\delta_1\norm w^2$, while $q\le\kappa\norm w\le\frac12\norm w$.
+\end{proof}
+
+This sharpening of Remark~\ref{rem:caseIIerror} was found by the independent check of these
+notes. It concerns only the first claim in \eqref{eq:claim27}; whether the defect decreases is
+still open.
+
+\begin{remark}[Numerical check]
+\texttt{experiments/case2\_test.py} runs the iteration $w\mapsto w^+$ in the model with $u_1$ a
+bump of width $5\cdot10^{-7}$, where $\max_{j\ge1}\abs{m_j}/\tau\approx10^{-4}$. At
+$\tau\approx7\cdot10^{-6}$ it finds tail norms $\sigma\approx1.5$--$3\cdot10^{-4}$ (compare
+$0.3\sqrt\delta=2.5\cdot10^{-4}$), $\norm{w^+-(1+\delta)w}\approx10^4\,\tau^2$, and ratios
+$\tau(w^+)/\tau=0.963,\ 0.985,\ 0.992,\ 0.995,\ 0.996$ over successive steps: the decrease
+is not geometric. The strict hypothesis $\abs{m_j}<\tau^4$ cannot be reached in double
+precision, so this is evidence about the mechanism, not a counterexample to the statement.
+\end{remark}
+
+\begin{proposition}[Case II]\label{prop:caseII}\stopen{}
+The second claim of \eqref{eq:claim27}, and the consequence that persistent Case II yields a
+non-cyclic vector, are unproved. The first claim is false for type 1 operators at small defect
+(Proposition~\ref{prop:27false}).
+\end{proposition}
+
+\begin{remark}
+The exact version is trivial: if $m_j=0$ for all $j\ge1$ then the orbit of $Tw$ is orthogonal to
+$x_0-w\ne0$, so $Tw$ is non-cyclic by Lemma~\ref{lem:criterion}. A correct treatment of Case II
+should therefore aim at norm convergence with $\sup_{j\ge1}\abs{m_j}\to0$, for which the defect
+$\tau=m_0$ need not tend to $0$ at all.
+\end{remark}

@@ -1,0 +1,47 @@
+\section{Purpose, conventions and status}
+
+\paper{} denotes P.~Enflo, \emph{On the invariant subspace problem in Hilbert spaces},
+arXiv:2305.15442v2 (source in \texttt{paper/}). Equation numbers ``\paper{} (17)'' refer to it.
+
+This document has two jobs. It restates, with complete proofs, the parts of \paper{} that are
+correct or can be corrected (Sections \ref{sec:reductions}--\ref{sec:variation}). And it tracks
+the parts that are not proofs (Section~\ref{sec:gaps}), together with evidence about whether they
+can be repaired (Sections~\ref{sec:model}--\ref{sec:experiments}). It does not claim the theorem.
+
+\subsection*{Status tags}
+\begin{itemize}[leftmargin=2em]
+\item \stproved: a complete proof is written in this document.
+\item \stoutline: the statement is believed and the argument is sketched, but details or
+constants have not been written out.
+\item \stopen: no proof is known to us.
+\item \stlean{name}: additionally machine-checked in the Lean project at the repository root.
+\end{itemize}
+
+\subsection*{Conventions}
+$H$ is a complex Hilbert space and $\ip{\cdot}{\cdot}$ is linear in the \emph{first} argument, as in
+\paper{}. (Mathlib's inner product is linear in the second, so $\ip{a}{b}$ here is
+\texttt{inner b a} in Lean.) $\ell^2=\ell^2(\N_0)$ with unilateral shift $S$, identified with the
+Hardy space $H^2$ via $a\mapsto a(z)=\sum_j a_jz^j$. We write $\kappa=\norm{T}$ and assume
+$0<\kappa\le\frac12$ where \paper{} takes $\kappa=10^{-20}$; nothing so far needs more.
+We write $\tau$ for the quantity \paper{} calls $\varepsilon\theta$.
+
+\subsection*{Summary of where things stand}
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Part of \paper{} & Here & Status\\
+\midrule
+Reductions (p.~1) & \S\ref{sec:reductions} & proved\\
+Extremal series, (1)--(18) & \S\ref{sec:extremal} & proved; two lemmas in Lean\\
+Type 1 / type 2, choice of $x_0$, Lemma 1 & \S\ref{sec:start} & proved after correction\\
+Lemmas 2--5 & \S\ref{sec:domination} & proved after correction\\
+Case I, (25) & \S\ref{sec:scaling} & proved\\
+Case II, (26)--(27) & \S\ref{sec:scaling} & argument invalid; statement open\\
+Variation formulas (28)--(30) & \S\ref{sec:variation} & proved after correction\\
+Main Construction (31)--(45) & \S\ref{sec:gaps}, Gaps \ref{gap:secondorder}--\ref{gap:real} & open; experiments in \S\ref{sec:experiments}\\
+Convergence step, (46) and after & \S\ref{sec:rigidity}, Gap \ref{gap:indep} & argument refuted in a model (Theorem~\ref{thm:nogo})\\
+Type 2: reduction, (20), (47) & \S\ref{sec:type2} & proved / outline\\
+Type 2: endgame & \S\ref{sec:type2}, Gap \ref{gap:type2} & open; depends on the type 1 construction\\
+\bottomrule
+\end{tabular}
+\end{center}

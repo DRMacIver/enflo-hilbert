@@ -1,0 +1,52 @@
+\section{Reductions}\label{sec:reductions}
+
+\begin{definition}
+A bounded operator $T$ on $H$ is \emph{transitive} if its only closed invariant subspaces are
+$\{0\}$ and $H$. The invariant subspace problem asks whether a transitive operator exists on a
+separable infinite-dimensional $H$. A vector $y$ is \emph{cyclic} if
+$\overline{\operatorname{span}}\{T^jy:j\ge0\}=H$.
+\end{definition}
+
+To prove there is no transitive operator one may argue by contradiction. This removes every
+``\dots or else we already have an invariant subspace'' branch in \paper{}, at the cost that no
+concrete operator satisfies the hypotheses. Statements below therefore say explicitly which
+consequence of transitivity they use, so that they can be tested on concrete operators.
+
+\begin{lemma}\label{lem:transitive}\stproved{}
+Let $T$ be transitive on $H$ with $\dim H=\infty$. Then:
+\begin{enumerate}[label=(\roman*)]
+\item every non-zero vector is cyclic for $T$;
+\item $T^*$ is transitive;
+\item if $A$ is bounded and $AT=TA$, then $A=0$ or $A$ is injective with dense range;
+\item for every non-zero polynomial $p$, $p(T)$ is injective with dense range;
+\item if $g(z)=\sum_jc_jz^j$ has radius of convergence $>\norm{T}$ and $g\not\equiv0$, then
+$g(T)$ is injective.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(i) The closed span of an orbit is a closed invariant subspace containing the vector.
+(ii) $M$ is invariant for $T$ iff $M^\perp$ is invariant for $T^*$.
+(iii) $\ker A$ and $\overline{AH}$ are closed and $T$-invariant.
+(iv) By (iii) each $T-\lambda$ is $0$ or injective with dense range, and $T\ne\lambda$ because
+$\dim H>1$ and scalars are not transitive. A product of injective operators with dense range has
+both properties.
+(v) $g$ is holomorphic on a disc of radius $>\norm T$, so it has finitely many zeros in
+$\{|z|\le\norm T\}\supseteq\sigma(T)$. Write $g=pe$ with $p$ a polynomial and $e$ holomorphic and
+zero-free on a neighbourhood of $\sigma(T)$. Then $e(T)$ is invertible by the holomorphic
+functional calculus and $g(T)=p(T)e(T)$ is injective by (iv).
+\end{proof}
+
+\begin{corollary}\label{cor:normalise}\stproved{}
+If a transitive operator exists on $H$, then for every $\kappa>0$ there is a transitive $T$ with
+$\norm{T}=\kappa$, $T$ injective with dense range, $T$ not surjective and $0\in\sigma(T)$; the same
+then holds for $T^*$.
+\end{corollary}
+\begin{proof}
+Pick $\lambda\in\sigma(T_0)$ and put $T=\mu(T_0-\lambda)$ with $\mu>0$ chosen to fix the norm. $T$
+has the same invariant subspaces, is injective with dense range by
+Lemma~\ref{lem:transitive}(iv), and is not invertible, hence not surjective.
+\end{proof}
+
+\noindent\textbf{Standing assumptions.} From now on $T$ is a bounded operator with
+$\norm T=\kappa\le\frac12$, injective, with dense range, not surjective. Transitivity is assumed
+only where stated.

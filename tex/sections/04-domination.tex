@@ -1,0 +1,95 @@
+\section{Domination of the leading coefficient}\label{sec:domination}
+
+This section covers \paper{} Lemmas 2--5. Fix a unit vector $u_0$ and the weakly compact convex
+set
+\[
+\cC=\{y\in H:\norm y\le2,\ \re\ip{y}{u_0}\ge\tfrac1{100}\},\qquad 0\notin\cC .
+\]
+
+\begin{definition}
+$T$ satisfies \textup{(Inj)} if for every $d\ne0$ and every sequence $(c_j)_{j\ge1}$ with
+$\abs{c_j}\le1$ the operator $d-\sum_{j\ge1}c_jT^j$ is injective.
+\end{definition}
+
+\begin{lemma}\label{lem:inj}\stproved{}
+A transitive $T$ (under the standing assumptions) satisfies \textup{(Inj)}.
+\end{lemma}
+\begin{proof}
+$g(z)=d-\sum_{j\ge1}c_jz^j$ has radius of convergence $\ge1>\kappa$ and $g(0)\ne0$; apply
+Lemma~\ref{lem:transitive}(v).
+\end{proof}
+
+For $d>0$ define
+\[
+h(d)=\inf\Bigl\{\Bigl\|dy-\sum_{j\ge1}c_jT^jy\Bigr\|:\ y\in\cC,\ \abs{c_j}\le1\ \forall j\ge1\Bigr\}.
+\]
+
+\begin{lemma}\label{lem:h}\stproved{}
+Assume \textup{(Inj)}. Then $h(d)>0$ for all $d>0$, $h(sd)\ge s\,h(d)$ for $s\ge1$, and $h$ is
+strictly increasing. Consequently
+$\omega(t)=\sup\{d>0:h(d)\le t\}$ (with $\sup\emptyset=0$) satisfies $\omega(t)\to0$ as $t\to0$.
+\end{lemma}
+\begin{proof}
+\emph{Positivity.} Take $y_n\in\cC$ and $c^{(n)}$ with
+$\norm{A_ny_n}\to h(d)$, $A_n=d-\sum_{j\ge1}c^{(n)}_jT^j$. Pass to a subsequence with
+$y_n\rightharpoonup y\in\cC$ and $c^{(n)}_j\to c_j$ for each $j$. Since
+$\norm{\sum_{j>J}c^{(n)}_jT^j}\le2\kappa^{J+1}$ uniformly, $A_n\to A=d-\sum_jc_jT^j$ in operator
+norm. Then $Ay_n\rightharpoonup Ay$ and
+$\norm{Ay}\le\liminf\norm{Ay_n}\le\liminf(\norm{A_ny_n}+2\norm{A-A_n})=h(d)$. If $h(d)=0$ then
+$Ay=0$ with $y\ne0$, contradicting \textup{(Inj)}.
+
+\emph{Monotonicity.} If $\abs{c_j}\le1$ then $\abs{c_j/s}\le1$, so
+$\norm{sdy-\sum c_jT^jy}=s\norm{dy-\sum(c_j/s)T^jy}\ge s\,h(d)$. Hence $h(sd)\ge s\,h(d)>h(d)$ for
+$s>1$. Finally if $d_0>0$ and $t<h(d_0)$ then $\omega(t)\le d_0$.
+\end{proof}
+
+\begin{remark}
+$\omega$ comes from a compactness argument and has no rate. Since $h(d)\le d\,h(1)$ for $d\le1$,
+one always has $\omega(t)\ge t/h(1)$ for $t\le h(1)$; nothing better than this lower bound is known in general.
+Any later step that compares $\gamma$ below with powers of $\tau$ must account for this.
+\end{remark}
+
+Put $\Lambda(s)=\sum_{j\ge0}\min(s,2\kappa^j)$, so $\Lambda(s)\to0$ as $s\to0$, and
+\[
+\gamma(s)=\omega\bigl(2\Lambda(s)^{1/2}\bigr)\xrightarrow[s\to0]{}0 .
+\]
+
+\begin{proposition}[Corrected form of \paper{} Lemmas 2--5]\label{prop:domination}\stproved{}
+Assume \textup{(Inj)}. Let $w\in\cC$ be cyclic with $0<\varepsilon:=\norm{x_0-w}<1$, and let $b$ be
+the extremal series of $w$ at level $\varepsilon$ (minimal $\norm b$ with
+$\norm{x_0-V_wb}\le\varepsilon$). Write $b_0=1-d$ and $\gamma=\gamma(\Delta(w))$. Then
+\begin{enumerate}[label=(\roman*)]
+\item $\norm b\le1$ and $\abs d\le\gamma$;
+\item $\sum_{j\ge1}\abs{b_j}^2\le2\gamma$;
+\item $\norm{V_wb-w}\le2\gamma+2\gamma^{1/2}$;
+\item if $\gamma\le1$, then $\tau(V_wb)\le\Delta(w)+28\gamma^{1/2}$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+$e_0$ is feasible, so $\norm b\le1$, hence $\abs{b_j}\le1$ and $\abs d\le2$. Put
+$q=dw-\sum_{j\ge1}b_jT^jw$, so $x_0-V_wb=(x_0-w)+q$ and
+\[
+0\ge\norm{x_0-V_wb}^2-\varepsilon^2=\norm q^2+2\re\ip{q}{x_0-w}.
+\]
+Each of $\abs{\ip{T^jw}{x_0-w}}$ is at most $\min(\Delta(w),\kappa^j\norm w\varepsilon)$ and the
+coefficients of $q$ are bounded by $2$, so $\abs{\ip{q}{x_0-w}}\le2\Lambda(\Delta(w))$. If $d\ne0$,
+dividing $q$ by $d/\abs d$ shows $\norm q\ge h(\abs d)$. Hence $h(\abs d)^2\le4\Lambda(\Delta(w))$
+and $\abs d\le\gamma$, which is (i). For (ii),
+$\sum_{j\ge1}\abs{b_j}^2\le1-\abs{1-d}^2\le2\abs d$. For (iii),
+$\norm{V_wb-w}\le\abs d\norm w+(\sum_{j\ge1}\abs{b_j}^2)^{1/2}(\sum_{j\ge1}\kappa^{2j})^{1/2}\norm w$
+and $2\sqrt2\,\kappa(1-\kappa^2)^{-1/2}\le2$ for $\kappa\le\frac12$. For (iv), with
+$v=V_wb$,
+$\abs{\tau(v)-\tau(w)}\le\norm{v-w}(\norm{x_0-w}+\norm v)\le4\gamma^{1/2}(1+2+4)$.
+\end{proof}
+
+\begin{remark}[What was wrong]
+\paper{} omits a factor $(\varepsilon\theta)^{1/2}$ in the bound for $h(\abs d)$, claims the
+inequality $h((1+\kappa)d)>(1+\kappa)h(d)$ strictly, and leaves implicit that $h$ is an infimum
+over a weakly compact family of vectors. None of this affects the conclusion. Note that the
+hypothesis used is only $\Delta(w)$ small; $w$ need not itself be an extremal image.
+\end{remark}
+
+\begin{remark}\label{rem:cone}
+If $\norm{x_0-w}\le0.7$ with $x_0$ as in \eqref{eq:x0}, then
+$\re\ip{w}{u_0}\ge\frac{\sqrt3}2-0.7>\frac1{100}$ and $\norm w\le1.7$, so $w\in\cC$.
+\end{remark}

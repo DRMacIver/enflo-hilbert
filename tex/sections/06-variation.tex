@@ -1,0 +1,55 @@
+\section{First-order variation under $y\mapsto(1+r(T))y$}\label{sec:variation}
+
+This section covers \paper{} (28)--(30$''$). Let $y$ be balanced, with $V=V_y$,
+$R=(I+VV^*)^{-1}$, $v=x_0-Rx_0$, $\hat a=V^*Rx_0$ and $f=\sum_j\hat a_jz^j$ as in
+Definition~\ref{def:balanced}. For a polynomial $r$ and real $s$ put $y_s=(1+sr(T))y$,
+$R_s=(I+V_{y_s}V_{y_s}^*)^{-1}$ and $v_s=x_0-R_sx_0$. (For $s\ne0$ the vector $y_s$ is balanced
+for the level $\norm{R_sx_0}$, which varies with $s$.) Derivatives are at $s=0$.
+
+\begin{lemma}\label{lem:variation}\stproved{}
+\begin{enumerate}[label=(\roman*)]
+\item $\dfrac{d}{ds}V_{y_s}V_{y_s}^*=r(T)VV^*+VV^*r(T)^*$.
+\item $\dfrac{d}{ds}v_s=R\,r(T)\,v+(I-R)\,r(T)^*\,(x_0-v)$.
+\item For $w\in H$ let $g_w=V^*Rw\in H^2$ and $\varphi=2\re r(e^{i\theta})$. Then
+\[
+\frac{d}{ds}\ip{R_sx_0}{w}=-\frac1{2\pi}\int_0^{2\pi}\varphi\,f\,\overline{g_w}\,d\theta .
+\]
+\item With $g=g_{Rx_0}=V^*R^2x_0$,
+\[
+\frac{d}{ds}\tau(v_s)=-\frac1{2\pi}\int_0^{2\pi}\varphi\,\bigl(\abs f^2-2\re(f\bar g)\bigr)\,d\theta,
+\qquad
+\frac{d}{ds}\norm{x_0-v_s}^2=-\frac1{2\pi}\int_0^{2\pi}\varphi\;2\re(f\bar g)\,d\theta .
+\]
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(i) $V_{y_s}=V(I+sM_r)$ by Lemma~\ref{lem:V}(iii), so the derivative is $V(M_r+M_r^*)V^*$, and
+$VM_r=r(T)V$. (ii) $\frac d{ds}R_s=-R\,(r(T)VV^*+VV^*r(T)^*)\,R$; apply to $x_0$ and use
+$VV^*Rx_0=v$ and $RVV^*=I-R$. (iii) By the formula for $\frac d{ds}R_s$ in (ii),
+$\frac d{ds}\ip{R_sx_0}{w}=-\ip{(M_r+M_r^*)f}{g_w}=-\ip{rf}{g_w}-\ip{f}{rg_w}$, which is the
+integral. (iv) $\tau(v_s)=\ip{R_sx_0}{x_0}-\norm{R_sx_0}^2$ and $g_{x_0}=f$.
+\end{proof}
+
+\begin{remark}
+(ii) shows why the construction is delicate. $R$ is close to the orthogonal projection onto the
+complement of $\operatorname{span}\{T^jy:j\le m\}$ with $m\approx\frac12\log_{1/\kappa}(1/\tau)$,
+because $VV^*=\sum_jT^jy\otimes T^jy$ and $\norm y\approx\tau^{-1/2}$. So $R\,r(T)\,v$ is small
+unless $r$ has large coefficients at degrees near $m$. Low-degree perturbations barely move $v$.
+\end{remark}
+
+\begin{remark}[Real versus complex independence]\label{rem:real}
+The available perturbations are parametrised by \emph{real} functions $\varphi$. To prescribe the
+derivatives of $\ip{R_sx_0}{w_i}$ for several $w_i$ one needs the functions $f\overline{g_{w_i}}$
+to be linearly independent over $\R$ after taking real and imaginary parts. Independence of the
+$g_{w_i}$ over $\C$ does not give this: $\re(f\bar h)=0$ a.e.\ for $h=icf$, $c\in\R$. When $f$ is
+invertible in $H^\infty$ (true if $\abs{\hat a_0}>\sum_{j\ge1}\abs{\hat a_j}$, which is stronger
+than the $\ell^2$ dominance of \paper{} (22)) these are the only solutions in $H^2$, since
+$h/f\in H^2$ purely imaginary on the circle is constant. \paper{} does not address this point
+beyond the paragraph before (16).
+\end{remark}
+
+\begin{remark}[Slips in \paper{}]
+In (29$'$) the function $g$ should be $\sum_mb_me^{im\theta}$; (37) should read
+$-y+VV^*Ry=-Ry$; and the derivative of $\hat a_0=\ip{Rx_0}{y}$ has an extra term $r_0\hat a_0$
+when $r_0\ne0$.
+\end{remark}

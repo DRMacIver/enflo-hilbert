@@ -1,0 +1,66 @@
+\section{Experiments: the Main Construction in the model}\label{sec:experiments}
+
+Code: \texttt{experiments/model.py}, \texttt{mc\_flow.py}, \texttt{mc\_profile.py}
+(run with \texttt{uv run --with numpy python mc\_profile.py}). These are numerical observations,
+not proofs.
+
+\subsection*{Setup}
+$\kappa=\frac12$; $u_0$ constant; $u_1$ a normalised bump on $[0,w]$, $w=5\cdot10^{-4}$, made
+orthogonal to $u_0$, so $\norm{T^*u_1}=0.009$; $x_0$ as in \eqref{eq:x0}. Functions are stored on
+440 Gauss--Legendre nodes. The start is that of Lemma~\ref{lem:start} followed by the
+re-extremalisation of Proposition~\ref{prop:domination}:
+$\tau=1.9\cdot10^{-3}$, $\norm{x_0-v}=0.498$, $\abs{\hat a_0}^2/\tau=0.998$.
+
+\begin{remark}
+In the model this start is close to a true solution, namely
+$x_0\mathbf 1_{(w',\kappa]}$ with $w'\approx w$: $\dist(v,\Sol)=0.051$. This is not an accident:
+$x_0-v\approx\frac12u_1$ and $u_1$ is nearly in $\ker T^*$.
+\end{remark}
+
+A step replaces $y$ by $(1+r(\lambda))y$ with $r$ a real polynomial of degree $<D$. Each step
+asks for $\tau\to(1-2\beta)\tau$ together with the listed constraints, takes the solution of
+least norm (in the basis $(\lambda/\kappa)^j$), and corrects it by Newton iteration so that the
+targets are met exactly, not only to first order. $\beta$ starts at $0.05$ and is halved when
+the Newton iteration fails. ``$s_{\min}$'' is the least singular value of the row-normalised
+Jacobian of the constrained quantities, a measure of their independence.
+
+\subsection*{Results after 400 steps}
+\begin{center}
+\begin{tabular}{lcccccc}
+\toprule
+Constraints & $D$ & final $\tau$ & $\abs{\hat a_0}^2/\tau$ & $\dist(v,\Sol)$ & $s_{\min}$ & final $\beta$\\
+\midrule
+(start) & & $1.9\cdot10^{-3}$ & 0.998 & 0.051 & & \\
+$\varepsilon$ fixed & 14 & $8.9\cdot10^{-6}$ & 0.50 & 0.096 & 0.28 & $9\cdot10^{-5}$\\
+$\varepsilon$ fixed & 24 & $8.6\cdot10^{-6}$ & 0.50 & 0.097 & 0.12 & $1\cdot10^{-4}$\\
+$\varepsilon$ fixed, $\hat a_0$ tracks $\sqrt\tau$ & 14 & $6.6\cdot10^{-4}$ & 0.999 & 0.071 & $1.4\cdot10^{-4}$ & $2\cdot10^{-5}$\\
+$\varepsilon^2$ falls by $2\beta\tau$, $\hat a_0$ tracks & 14 & $5.9\cdot10^{-4}$ & 0.999 & 0.070 & $9\cdot10^{-4}$ & $4\cdot10^{-4}$\\
+same & 24 & $5.7\cdot10^{-4}$ & 0.999 & 0.070 & $7\cdot10^{-4}$ & $4\cdot10^{-4}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The last two rows use the prescription of \paper{} for its ``dependent case'' (after (44)).
+
+\subsection*{Observations}
+\begin{enumerate}
+\item In every variant the state moves \emph{away} from $\Sol$ while the defect falls. The
+profile $g=v/x_0$, which should tend to $1$ on $(w,\kappa]$, instead develops oscillations: in
+the first row it ends near $1.38,\ 1.21,\ 0.98,\ 0.93,\ 1.06,\ 0.98,\ 1.13$ at
+$\lambda=6\cdot10^{-4},\ 0.03,\ 0.1,\ 0.2,\ 0.3,\ 0.4,\ 0.49$. The defect is being reduced by
+letting $g-g^2$ change sign so that its low moments cancel, which is the real-valued form of the
+oscillating states of Section~\ref{sec:model}. By Theorem~\ref{thm:rigidity} this can never
+reach defect $0$ without eventually travelling at least the current distance to $\Sol$.
+\item With the leading coefficient made to track $\sqrt\tau$, as \paper{} (33) requires, the
+constraints become nearly dependent ($s_{\min}\sim10^{-3}$ or less) and progress almost stops
+after the defect has fallen by a factor of about $3$.
+\item Without that tracking, $\abs{\hat a_0}^2/\tau$ falls to about $\frac12$, so dominance of
+the leading coefficient is lost, and the admissible step size still collapses.
+\end{enumerate}
+
+\subsection*{Caveats}
+The Main Construction is not a single algorithm: \paper{} only asserts that suitable steps
+exist. We tested least-norm steps in one basis with degree at most $24$, in double precision,
+with finite-difference Jacobians. A cleverer selection rule might behave differently, and in the
+model one certainly exists if one is allowed to use knowledge of $\Sol$. What the experiment
+shows is that the natural reading of the construction does not head towards a solution even
+from a start that is close to one.
