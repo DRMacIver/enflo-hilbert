@@ -5,6 +5,10 @@
 step after equation (46) of P. H. Enflo's *On the invariant subspace problem in
 Hilbert spaces*, [arXiv:2305.15442v2](https://arxiv.org/abs/2305.15442v2).
 
+Published at **[drmaciver.github.io/enflo-hilbert](https://drmaciver.github.io/enflo-hilbert/)**.
+The [direct PDF link](https://drmaciver.github.io/enflo-hilbert/output/pdf/refutation.pdf)
+stays the same when the paper is updated.
+
 The core problem is that **small defect does not ensure that further improvement
 is possible inside the ball imposed by the convergence constraint**. In the
 multiplication operator on complex `L²[0, κ]`, the paper constructs explicit
@@ -110,6 +114,18 @@ files go into ignored `build/`. The PDF build fixes its timestamp to the draft
 date; byte-for-byte reproduction also requires the same TeX distribution.
 `make clean` removes intermediates, leaving the committed PDF and installed
 dependencies in place.
+
+## Publishing updates
+
+GitHub Pages serves the repository root from `main`. `index.html` is the landing
+page, and `.nojekyll` makes GitHub serve the committed files without a Jekyll
+build. No separate deployment branch, custom workflow, or TeX installation on
+GitHub is needed.
+
+After editing the paper, run `make pdf`, check the result, commit the changed
+source and `output/pdf/refutation.pdf`, and push `main`. GitHub Pages publishes
+the update automatically. Publishing settings are under **Settings → Pages**:
+**Deploy from a branch**, branch **main**, folder **/ (root)**.
 
 ## Repository history
 

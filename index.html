@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A local continuation obstruction in Enflo's argument</title>
+  <meta name="description" content="A research note on the convergence step in Enflo's invariant subspace argument, with explicit model states and an abstract inequality checked in Lean.">
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      max-width: 42rem;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+      font: 1.125rem/1.65 Georgia, "Times New Roman", serif;
+      color: #20252b;
+      background: #fff;
+    }
+    h1 { font-size: clamp(2rem, 5vw, 2.75rem); line-height: 1.2; font-weight: normal; }
+    a { color: #18549a; text-underline-offset: .18em; }
+    a:hover { text-decoration-thickness: .15em; }
+    a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+    .date { font: 1rem/1.5 system-ui, sans-serif; color: #59636e; }
+    .pdf { display: inline-block; margin: .5rem 0; font-weight: bold; font-size: 1.25rem; }
+    footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #bbc3cc; font-size: 1rem; }
+    @media (prefers-color-scheme: dark) {
+      body { background: #171b20; color: #e7eaf0; }
+      a { color: #9bc5ff; }
+      .date { color: #b6bfca; }
+      footer { border-color: #4c5765; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="date">Research draft · November 2026</p>
+    <h1>Failure of a local continuation principle in Enflo's invariant subspace argument</h1>
+    <p>Small defect does not, by itself, guarantee that a constrained descent can
+      continue. This note constructs explicit extremal states in a multiplication
+      operator for which the neighbourhood imposed by the convergence constraint
+      has defect bounded away from zero.</p>
+    <p><a class="pdf" href="output/pdf/refutation.pdf">Read the paper (PDF, 13 pages)</a></p>
+    <p>The target is the continuation inference after equation (46) of
+      <a href="https://arxiv.org/abs/2305.15442v2">Enflo's preprint, version 2</a>.
+      The model has invariant subspaces: this is a critique of that inference,
+      not a disproof of the invariant subspace theorem. The paper explains the
+      hypothesis matching and the limits of its supplementary reachability result.</p>
+    <p>The abstract obstruction is checked in Lean. The explicit admissible
+      states and their asymptotic estimates are proved by hand.</p>
+  </main>
+  <footer>
+    <a href="https://github.com/DRMacIver/enflo-hilbert">Source, Lean proofs, and reproduction instructions on GitHub</a>
+  </footer>
+</body>
+</html>
