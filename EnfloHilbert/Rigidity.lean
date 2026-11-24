@@ -66,6 +66,7 @@ theorem rigidity_inequality (B : H →L[ℂ] H)
   have hs := re_inner_defectForm_symm B z u
   linarith
 
+omit [CompleteSpace H] in
 /-- If all the orbit pairings `⟨T^j u, r⟩` are bounded by `Δ`, then the pairing with a
 polynomial in `T` is bounded by the `ℓ¹` norm of the coefficients times `Δ`. -/
 theorem norm_inner_sum_pow_le (T : H →L[ℂ] H) (c : ℕ → ℂ) (n : ℕ) (u r : H) (Δ : ℝ)

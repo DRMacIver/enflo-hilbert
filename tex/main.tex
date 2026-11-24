@@ -3,6 +3,9 @@
 \usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{enumitem}
 \usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{microtype}
+\setlength{\emergencystretch}{2em}
 \usepackage{xcolor}
 \usepackage[colorlinks,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
 
@@ -21,7 +24,8 @@
 \newcommand{\stproved}{\textnormal{\textsf{\small\color{green!45!black}[proved here]}}}
 \newcommand{\stoutline}{\textnormal{\textsf{\small\color{orange!80!black}[outline only]}}}
 \newcommand{\stopen}{\textnormal{\textsf{\small\color{red!70!black}[open]}}}
-\newcommand{\stlean}[1]{\textnormal{\textsf{\small\color{blue!60!black}[Lean: \texttt{#1}]}}}
+\newcommand{\stlean}[1]{\par\nobreak{\raggedright\normalfont\sffamily\footnotesize
+\color{blue!60!black}[Lean: \texttt{#1}]\par}\nobreak}
 
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\R}{\mathbb{R}}
@@ -33,7 +37,7 @@
 \newcommand{\dist}{\operatorname{dist}}
 \newcommand{\Sol}{\operatorname{Sol}}
 \newcommand{\cC}{\mathcal{C}}
-\newcommand{\paper}{\textsc{[E]}}
+\newcommand{\paper}{\textnormal{\textsc{[E]}}}
 
 \title[Notes on Enflo's approach to the invariant subspace problem]{Notes towards a repair or refutation of Enflo's argument for the invariant subspace problem in Hilbert spaces}
 \date{Working draft. Not a claim of proof.}

@@ -3,7 +3,10 @@
 \usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{enumitem}
 \usepackage{xcolor}
+\usepackage{microtype}
 \usepackage[colorlinks,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\hypersetup{pdftitle={Failure of a local continuation principle in Enflo's invariant subspace argument},
+pdfsubject={An explicit model obstruction with an abstract Lean proof}}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
@@ -25,8 +28,8 @@
 \newcommand{\one}{\mathbf 1}
 \newcommand{\rhoN}{\varrho}
 
-\title{The convergence step in Enflo's argument for the invariant subspace problem
-fails in a model operator}
+\title{Failure of a local continuation principle in Enflo's
+invariant subspace argument}
 \author{}
 \date{Draft, November 2026}
 
@@ -40,11 +43,12 @@ vectors and claims that, for operators of ``type 1'', a constrained iterative co
 drives the approximation error to zero while the vectors converge in norm. We show that the
 justification of this convergence step cannot be correct. For multiplication by the variable on
 $L^2[0,\kappa]$, which is of type 1 and satisfies the other structural hypotheses used, we
-exhibit explicit states that satisfy every hypothesis the paper places on its states, including
-its non-degeneracy conditions, with arbitrarily small error, from which no sequence obeying the
-paper's constraints can have error tending to zero. These states can be reached from the paper's
-own starting vector by a finite chain of steps of the form the construction uses, along which
-the error decreases and every quantity the paper monitors stays within its prescribed bounds.
+exhibit explicit states satisfying the admissibility conditions extracted below, including
+the non-degeneracy conditions, with arbitrarily small defect, from which no sequence obeying
+the confinement and distance-drift constraints can have defect tending to zero. A supplementary
+construction connects the starting vector to such states while preserving these state
+conditions. It does not establish the degree or coefficient bounds needed to validate the
+paper's first-order step formulas.
 The obstruction is an elementary inequality, valid for every bounded operator, which we have
 checked in Lean. This does not refute the theorem, and it says nothing about operators without
 invariant subspaces; it shows that the published argument does not establish its key step.
@@ -54,9 +58,10 @@ invariant subspaces; it shows that the published argument does not establish its
 
 Let $H$ be a complex Hilbert space. Whether every bounded operator on a separable
 infinite-dimensional $H$ has a closed invariant subspace other than $\{0\}$ and $H$ is the
-invariant subspace problem. Enflo's preprint \cite{E} claims a positive answer. It has not
-appeared in a journal, and a recent survey \cite{CP} treats the problem as open, but to our
-knowledge no specific error has been pointed out in print.
+invariant subspace problem. This note examines the argument in version 2 of Enflo's
+preprint \cite{E}, whose source is included in the accompanying repository. Our claim concerns
+the continuation inference in that version, independently of the status of other approaches
+to the invariant subspace problem.
 
 The argument of \cite{E} has three parts.
 \begin{enumerate}[leftmargin=2em]
@@ -84,12 +89,14 @@ type 1 argument of \cite{E} invokes holds for it (Section~\ref{sec:discussion} l
 the reasoning were valid, its conclusion would hold in this operator at every state satisfying
 the hypotheses.
 \begin{itemize}[leftmargin=2em]
-\item Theorem~\ref{thm:main}: there are states satisfying all the hypotheses of \cite{E}, with
-arbitrarily small defect, at which the conclusion fails. The states are explicit, and so are
-their extremal series, so the hypotheses can be verified by inspection.
+\item Theorem~\ref{thm:main}: there are states satisfying
+Definition~\ref{def:admissible}, with arbitrarily small defect, at which Claim (C) below
+fails. Explicit extremal series and a compactness argument for the second coefficient
+sequence establish the required non-degeneracy conditions.
 \item Theorem~\ref{thm:path}: these states are connected to the starting vector of \cite{E} by
 a finite chain of steps $y\mapsto y+\sum_jr_jT^jy$ along which the defect decreases strictly
-and the hypotheses and bounds that \cite{E} maintains during the MC all hold.
+and the admissibility and distance-drift conditions hold. This concerns the states, not
+control of the coefficients or degrees of the steps (Remark~\ref{rem:path}).
 \end{itemize}
 
 \subsection*{Scope}
@@ -98,14 +105,22 @@ shape can work. The obstruction uses a structure that an operator without invari
 cannot have; Section~\ref{sec:discussion} explains why this is unavoidable in any test of the
 argument and what it leaves open. The steps of the chain in Theorem~\ref{thm:path} are small in
 norm but are not small perturbations in the sense of coefficient size, and we make no claim
-about what a particular rule for choosing MC steps would do.
+about what a particular rule for choosing MC steps would do. The starting residual level is
+$O(t_0^2)$ above $1/2$, rather than in the interval ending at $1/2$ prescribed by
+\cite{E}, Lemma~1; see the discussion after Lemma~\ref{lem:x0}.
+
+The logical target is the implication from the listed local state conditions to continued
+descent under confinement. Theorem~\ref{thm:main} disproves this implication in the model.
+Interpreting it as a criticism of \cite{E} requires the hypothesis audit in
+Section~\ref{sec:discussion}; we do not replace the global assumption of transitivity by
+a claim that the model is transitive.
 
 \subsection*{Conventions}
 $\ip\cdot\cdot$ is linear in the first variable. $T$ is a bounded operator with
 $\norm T=\kappa\le\frac12$ (in \cite{E}, $\kappa=10^{-20}$), injective, with dense range and not
 surjective; \cite{E} reduces to this case. $\ell^2=\ell^2(\N_0)$, with shift $S$.
 
-\section{The framework of \cite{E}}
+\section{The extremal framework}
 
 For $y\in H$ let $V_y:\ell^2\to H$, $V_ya=\sum_{j\ge0}a_jT^jy$; this is bounded since
 $\norm T<1$, and $TV_y=V_yS$. Fix $x_0$ with $\norm{x_0}=1$.
@@ -326,7 +341,7 @@ $\ip{T^jy}{y}=\int\lambda^j\abs y^2\ge\eta^j/40000$ for all $j$. (iii) The funct
 $d-\sum_jc_j\lambda^j$ is real-analytic and not identically zero, hence non-zero a.e.
 \end{proof}
 
-\subsection{The choice of $x_0$}
+\subsection{\texorpdfstring{The choice of $x_0$}{The choice of x0}}
 Let $L(z)=-z^{-1}\log(1-z)=\sum_{j\ge0}z^j/(j+1)$, so $1\le L(z)\le1+z$ for $0\le z\le\frac14$.
 In this section ``$t_0$ small'' means smaller than a constant depending only on $\kappa$.
 
@@ -526,7 +541,7 @@ $g=k\mu L(\sigma\lambda)/x_0<\frac12$ satisfies $g-g^2=k\mu Lh/x_0^2=c$. So $v=k
 L(\sigma\lambda)=v_0$ and $y=v/A=\mu y_0$.
 \end{proof}
 
-\subsection{The coefficients $\hb_j$}
+\subsection{\texorpdfstring{The coefficients $\hb_j$}{The second coefficient sequence}}
 By \eqref{eq:balanced}, $\hb=t^{3/2}(t+G)^{-1}a$, where in the model $G=V_y^*V_y$ is the Hankel
 matrix $G_{jk}=\int\lambda^{j+k}\abs y^2d\lambda$. The next lemma gives the lower bounds
 required in (A4). For a positive Borel measure $\nu$ on $[0,\kappa]$ write
@@ -622,7 +637,8 @@ $\Delta(u)\ge\frac1{10}\exp(-\alpha\sinh N)$.
 In particular Claim~\textup{(C)} fails for $v'=v$, with $w=w_{00}$, although the defect of
 $v'$ can be taken as small as we please. Part \textup{(d)} does not involve the bookkeeping
 of \textup{(45)}: the ``room for variation'' that the constraint leaves, in the words of
-\cite{E}, contains no vectors of small defect at all.
+\cite{E}, contains no vectors with defect below this fixed positive threshold (which
+depends on the chosen state and tends to zero as $N$ increases).
 \end{theorem}
 \begin{proof}
 Let $c_0,\eta_0$ be the constants of Lemma~\ref{lem:two} for $w_-=k^2/25$ and $w_+=2$; they
@@ -867,8 +883,6 @@ $N\to\infty$.
 \begin{thebibliography}{9}
 \bibitem{E} P.~H.~Enflo, \emph{On the invariant subspace problem in Hilbert spaces},
 arXiv:2305.15442v2 (2024).
-\bibitem{CP} I.~Chalendar and J.~R.~Partington, \emph{Recent perspectives on the Invariant
-Subspace Problem}, arXiv:2507.21834.
 \end{thebibliography}
 
 \end{document}

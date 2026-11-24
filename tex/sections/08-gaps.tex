@@ -2,7 +2,8 @@
 
 \subsection{Errors already repaired}
 \begin{center}
-\begin{tabular}{lll}
+\small
+\begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}Xl@{}}
 \toprule
 In \paper{} & Problem & Repaired in\\
 \midrule
@@ -16,7 +17,7 @@ Lemma 2 & missing factor, strictness, implicit infimum & Proposition~\ref{prop:d
 (41), (42) & explicit constants unjustified & see Gap~\ref{gap:indep}\\
 (44) & deduced from (38) through the compact $V_y$ & see Gap~\ref{gap:secondorder}\\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 
 \subsection{The statement a repair must establish}
@@ -109,9 +110,11 @@ for the states $v_N'$ of these notes, verified numerically only (Remark~\ref{rem
 \textbf{Resolved by a different construction} in the standalone paper
 \texttt{tex/refutation.tex}: there the states are given by an explicit formula for extremal
 images in the model, their series is known in closed form, and (33) and the four-coefficient
-condition are proved (Theorem~12 there). The same paper shows that these states are joined
+condition are proved (the theorem in its section ``Failure of Claim (C)''). The same paper shows that these states are joined
 to the starting vector $y_0$ of \paper{} by a chain of steps of the form (13) along which the
-defect decreases and all the monitored hypotheses hold (Theorem~13 there).
+defect decreases and the listed state conditions hold (the theorem in its section
+``The states are reachable''). This chain does not control step degrees or coefficient
+sizes, and its starting residual level is slightly above $1/2$; see the qualifications there.
 \item Lean: the abstract inequality behind the no-go (Theorem~\ref{thm:abstract-rigidity}),
 its self-adjoint form, the pointwise identities, and the abstract no-continuation theorem
 (Theorem~\ref{thm:abstract-nogo}) are \textbf{checked}. \textbf{Not formalised}: the

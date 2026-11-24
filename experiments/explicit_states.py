@@ -11,8 +11,9 @@ Checks, on a discretisation:
 The finite-N rows test only the algebraic identity behind the explicit formula; N is far
 below what the estimates in tex/refutation.tex require. Usage: explicit_states.py [t0] [N]
 (defaults 0.05, 200000; smaller t0 needs much larger N and a finer grid).
+Use --points to set the grid size (default 2000000, requiring several GB of RAM).
 """
-import sys
+import argparse
 import numpy as np
 from scipy.optimize import brentq, fsolve
 from scipy.special import j0
@@ -42,12 +43,20 @@ def design(t0):
         e2 = k * k * i2 + 2 * k * h * i3 + h * h * sigma - 1
         return [e1, e2]
 
-    mu, ls = fsolve(eqs, [1 / (1 + 4 * t0 / 3), np.log(4 * t0**2 / k**2)], xtol=1e-14)
+    solution, _, _, message = fsolve(
+        eqs, [1 / (1 + 4 * t0 / 3), np.log(4 * t0**2 / k**2)],
+        xtol=1e-12, full_output=True)
+    mu, ls = solution
+    if (not np.all(np.isfinite(solution)) or not 0 < mu < 1
+            or not 0 < np.exp(ls) < kappa or np.max(np.abs(eqs(solution))) > 1e-9):
+        raise ValueError(f"Could not design a normalised x0: {message}")
     return mu, np.exp(ls)
 
 
 class Model:
     def __init__(self, t0, n=2_000_000):
+        if not 0 < t0 < 0.1 or n < 10_000:
+            raise ValueError("Use 0 < t0 < 0.1 and at least 10000 grid points")
         self.t0 = t0
         self.mu, self.sigma = design(t0)
         # grid refined so that sigma is a cell boundary
@@ -87,7 +96,8 @@ class Model:
         A = np.polyval(a[::-1], lam)
         c = ct * A
         rad = 0.25 - c.real - c.imag**2
-        assert rad.min() > 0, rad.min()
+        if not np.all(np.isfinite(rad)) or rad.min() <= 0:
+            raise ValueError("The chosen frequency/grid does not give a positive radicand")
         g = 0.5 + np.where(U, -1, 1) * np.sqrt(rad) + 1j * c.imag
         v = x0 * g
         y = v / A
@@ -122,8 +132,16 @@ class Model:
 
 
 if __name__ == "__main__":
-    t0 = float(sys.argv[1]) if len(sys.argv) > 1 else 0.05
-    M = Model(t0)
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("t0", nargs="?", type=float, default=0.05)
+    parser.add_argument("N", nargs="?", type=int, default=200000)
+    parser.add_argument("--points", type=int, default=2_000_000)
+    args = parser.parse_args()
+    if args.N <= 0:
+        parser.error("N must be positive")
+    t0 = args.t0
+    M = Model(t0, n=args.points)
+    print("Finite-grid algebraic checks; these parameters do not certify the asymptotic theorem.")
     print(f"t0={t0}: mu={M.mu:.6f} sigma={M.sigma:.6e}  (4 t0^2/k^2={4*t0**2/k**2:.3e})")
     print(f"  ||x0||^2={M.integ(M.x0**2):.8f}  <x0,u0>={M.integ(M.x0)/np.sqrt(kappa):.8f} (sqrt3/2={np.sqrt(3)/2:.8f})")
     u1 = 2 * (M.x0 - np.sqrt(3) / 2 / np.sqrt(kappa))
@@ -136,7 +154,7 @@ if __name__ == "__main__":
     print("== start state as S(sigma, 0, N) ==")
     r0 = M.report(M.sigma * (1 + 1e-9), 0.0, 1)
     eps0 = r0["eps2"]
-    N = int(sys.argv[2]) if len(sys.argv) > 2 else 200000
+    N = args.N
     print("== finite N checks ==")
     for frac, al in [(0.5, 0.5), (0.5, 1.0), (0.2, 1.2)]:
         M.report(M.sigma * frac, al, N)
@@ -150,7 +168,12 @@ if __name__ == "__main__":
         zb = beta * lam
         Lb = -np.log1p(-zb) / zb
         c = (t / beta) * Lb / x0**2
-        gm = 0.5 - np.sqrt(0.25 - c)
+        # g_beta is needed only on [0, beta]; the other branch is used outside.
+        radicand = 0.25 - c[U]
+        if np.any(radicand <= 0):
+            raise ValueError("The limiting path has a nonpositive radicand on [0, beta]")
+        gm = np.zeros_like(c)
+        gm[U] = 0.5 - np.sqrt(radicand)
         D = np.sum((x0**2 * (1 - gm) ** 2 * w)[U])
         m = np.sum((x0**2 * w)[U])
         Phi = (eps0 - D) / (1 - m)

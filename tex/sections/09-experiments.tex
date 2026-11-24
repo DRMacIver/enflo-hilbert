@@ -1,8 +1,8 @@
 \section{Experiments: the Main Construction in the model}\label{sec:experiments}
 
-Code: \texttt{experiments/model.py}, \texttt{mc\_flow.py}, \texttt{mc\_profile.py}
-(run with \texttt{uv run --with numpy python mc\_profile.py}). These are numerical observations,
-not proofs.
+Code: \texttt{experiments/model.py}, \texttt{mc\_flow.py}, \texttt{mc\_profile.py}.
+See \texttt{experiments/README.md} for the environment and run commands.
+These are numerical observations, not proofs.
 
 \subsection*{Setup}
 $\kappa=\frac12$; $u_0$ constant; $u_1$ a normalised bump on $[0,w]$, $w=5\cdot10^{-4}$, made
@@ -26,7 +26,8 @@ Jacobian of the constrained quantities, a measure of their independence.
 
 \subsection*{Results after 400 steps}
 \begin{center}
-\begin{tabular}{lcccccc}
+\small
+\begin{tabular}{@{}p{.30\textwidth}cccccc@{}}
 \toprule
 Constraints & $D$ & final $\tau$ & $\abs{\hat a_0}^2/\tau$ & $\dist(v,\Sol)$ & $s_{\min}$ & final $\beta$\\
 \midrule

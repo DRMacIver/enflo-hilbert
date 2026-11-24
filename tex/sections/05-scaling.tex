@@ -106,14 +106,19 @@ This sharpening of Remark~\ref{rem:caseIIerror} was found by the independent che
 notes. It concerns only the first claim in \eqref{eq:claim27}; whether the defect decreases is
 still open.
 
-\begin{remark}[Numerical check]
-\texttt{experiments/case2\_test.py} runs the iteration $w\mapsto w^+$ in the model with $u_1$ a
+\begin{remark}[Historical numerics]
+The former script \texttt{case2\_test.py}, preserved under \texttt{experiments/} in Git
+snapshot \texttt{7dd4a85}, ran the iteration $w\mapsto w^+$ in the model with $u_1$ a
 bump of width $5\cdot10^{-7}$, where $\max_{j\ge1}\abs{m_j}/\tau\approx10^{-4}$. At
 $\tau\approx7\cdot10^{-6}$ it finds tail norms $\sigma\approx1.5$--$3\cdot10^{-4}$ (compare
 $0.3\sqrt\delta=2.5\cdot10^{-4}$), $\norm{w^+-(1+\delta)w}\approx10^4\,\tau^2$, and ratios
 $\tau(w^+)/\tau=0.963,\ 0.985,\ 0.992,\ 0.995,\ 0.996$ over successive steps: the decrease
 is not geometric. The strict hypothesis $\abs{m_j}<\tau^4$ cannot be reached in double
-precision, so this is evidence about the mechanism, not a counterexample to the statement.
+precision, so this is not a counterexample to the statement. On re-running, the script also
+produced negative computed defects and failed to attain its requested starting residual in
+some runs. It has therefore been removed from the maintained experiments; the numbers above
+are historical observations, not verified extremal states. The hand argument above does not
+depend on them.
 \end{remark}
 
 \begin{proposition}[Case II]\label{prop:caseII}\stopen{}

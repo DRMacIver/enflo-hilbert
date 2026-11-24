@@ -1,4 +1,7 @@
-"""Sanity check of Proposition 5 and Theorem 7 of tex/refutation.tex (discretised model).
+"""Exploratory oscillating-state check (discretised model).
+
+This predates the explicit admissible family in tex/refutation.tex and uses a
+different x0. It is an illustration, not a check of all hypotheses of that paper.
 
 States: v_N = (x0 + W_N x0)/2 with W_N = multiplication by exp(i alpha0 sin(N lambda)),
 alpha0 the first positive root of J0(alpha) = 1/2.

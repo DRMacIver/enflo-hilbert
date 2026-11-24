@@ -7,3 +7,9 @@
 *.toc
 *.synctex.gz
 tex/build/
+build/
+.venv/
+.uv-cache/
+__pycache__/
+*.py[cod]
+.DS_Store

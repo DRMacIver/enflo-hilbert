@@ -102,6 +102,7 @@ theorem oscillating_lower_bound (W : H →L[ℂ] H) (hW : ∀ a : H, ‖W a‖ =
   rw [n1, n2, hxc, hin] at key
   linarith
 
+omit [CompleteSpace H] in
 /-- If `W = ∑ c_k T^k` with summable coefficient norms and every `|⟨T^k u, r⟩| ≤ Δ`, then
 `|⟨W u, r⟩| ≤ (∑ ‖c_k‖) Δ`. -/
 theorem norm_inner_hasSum_pow_le (T W : H →L[ℂ] H) (c : ℕ → ℂ)
@@ -171,7 +172,7 @@ theorem oscillating_defect (T W : H →L[ℂ] H) (hW : adjoint W * W = 1)
     inner_add_right, inner_add_right, ContinuousLinearMap.sub_apply, map_sub, inner_sub_right,
     c1, c2, hWW, adjoint_inner_right]
   have h2 : (starRingEnd ℂ) (2 : ℂ) = 2 := Complex.conj_eq_iff_real.2 ⟨2, by norm_num⟩
-  simp
+  simp only [one_div, map_inv₀, coe_pow']
   rw [h2]
   ring
 
