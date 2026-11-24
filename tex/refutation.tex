@@ -6,7 +6,8 @@
 \usepackage{microtype}
 \usepackage[colorlinks,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
 \hypersetup{pdftitle={Failure of a local continuation principle in Enflo's invariant subspace argument},
-pdfsubject={An explicit model obstruction with an abstract Lean proof}}
+pdfsubject={LLM-generated analysis with an abstract Lean proof; no human authorship claimed},
+pdfauthor={Large language models (LLM-generated material)}}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
@@ -30,11 +31,12 @@ pdfsubject={An explicit model obstruction with an abstract Lean proof}}
 
 \title{Failure of a local continuation principle in Enflo's
 invariant subspace argument}
-\author{}
+\author{LLM-generated research draft}
 \date{Draft, November 2026}
 
 \begin{document}
 \maketitle
+\input{provenance}
 
 \begin{abstract}
 In arXiv:2305.15442v2, P.~Enflo proposes a proof that every bounded operator on a Hilbert space
@@ -872,8 +874,8 @@ sound.
 
 \subsection*{Formalisation and numerical checks}
 Theorem~\ref{thm:nogo} and the identity in Lemma~\ref{lem:confine} are machine-checked in
-Lean~4 with Mathlib. The results of Sections~\ref{sec:model}--\ref{sec:reach} are proved here
-by hand and are not formalised. The script \texttt{experiments/explicit\_states.py} checks on
+Lean~4 with Mathlib. The results of Sections~\ref{sec:model}--\ref{sec:reach} are supported by
+LLM-generated informal proofs and are not formalised. The script \texttt{experiments/explicit\_states.py} checks on
 a discretisation that the series \eqref{eq:aj} agrees with the numerically computed extremal
 series (to about $10^{-14}$); this tests the identity of Lemma~\ref{lem:explicit}, at
 frequencies $N$ far below those the estimates require. It also tabulates the defect, distance,

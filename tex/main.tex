@@ -8,6 +8,8 @@
 \setlength{\emergencystretch}{2em}
 \usepackage{xcolor}
 \usepackage[colorlinks,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\hypersetup{pdfauthor={Large language models (LLM-generated material)},
+pdfsubject={LLM-generated companion notes; no human authorship claimed}}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
@@ -44,6 +46,8 @@
 
 \begin{document}
 \maketitle
+\input{provenance}
+\clearpage
 \tableofcontents
 
 \input{sections/00-intro}
