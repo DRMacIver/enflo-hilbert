@@ -1,0 +1,874 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.7cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[colorlinks,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\ip}[2]{\langle #1,#2\rangle}
+\newcommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\abs}[1]{\lvert #1\rvert}
+\newcommand{\re}{\operatorname{Re}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\ha}{\hat a}
+\newcommand{\hb}{\hat b}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\rhoN}{\varrho}
+
+\title{The convergence step in Enflo's argument for the invariant subspace problem
+fails in a model operator}
+\author{}
+\date{Draft, November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+In arXiv:2305.15442v2, P.~Enflo proposes a proof that every bounded operator on a Hilbert space
+has a non-trivial closed invariant subspace. The argument constructs approximate non-cyclic
+vectors and claims that, for operators of ``type 1'', a constrained iterative construction
+drives the approximation error to zero while the vectors converge in norm. We show that the
+justification of this convergence step cannot be correct. For multiplication by the variable on
+$L^2[0,\kappa]$, which is of type 1 and satisfies the other structural hypotheses used, we
+exhibit explicit states that satisfy every hypothesis the paper places on its states, including
+its non-degeneracy conditions, with arbitrarily small error, from which no sequence obeying the
+paper's constraints can have error tending to zero. These states can be reached from the paper's
+own starting vector by a finite chain of steps of the form the construction uses, along which
+the error decreases and every quantity the paper monitors stays within its prescribed bounds.
+The obstruction is an elementary inequality, valid for every bounded operator, which we have
+checked in Lean. This does not refute the theorem, and it says nothing about operators without
+invariant subspaces; it shows that the published argument does not establish its key step.
+\end{abstract}
+
+\section{Introduction}
+
+Let $H$ be a complex Hilbert space. Whether every bounded operator on a separable
+infinite-dimensional $H$ has a closed invariant subspace other than $\{0\}$ and $H$ is the
+invariant subspace problem. Enflo's preprint \cite{E} claims a positive answer. It has not
+appeared in a journal, and a recent survey \cite{CP} treats the problem as open, but to our
+knowledge no specific error has been pointed out in print.
+
+The argument of \cite{E} has three parts.
+\begin{enumerate}[leftmargin=2em]
+\item A reformulation. For a unit vector $x_0$, one seeks $v\notin\{0,x_0\}$ whose orbit
+$\{T^jv\}$ is orthogonal to $x_0-v$. Extremal power series produce vectors $v$ for which all
+the numbers $\ip{T^jv}{x_0-v}$ are bounded by a single non-negative number, which we call the
+\emph{defect}. A norm limit of such vectors with defect tending to $0$ is non-cyclic.
+\item A ``Main Construction'' (MC) that modifies the current state step by step so as to
+decrease the defect, using first-order perturbation formulas.
+\item A convergence step. Operators are divided into two types. For type 1 it is asserted that
+one can add a linear constraint to the construction which confines the vectors to a small ball
+and still continue to defect $0$; repeating this with tighter constraints gives norm
+convergence. One branch of the treatment of type 2 operators falls back on the same step.
+\end{enumerate}
+Part 1 is correct, and the device in part 3 for confining the vectors is correct and
+attractive (Lemma~\ref{lem:confine}). Our subject is the assertion in part 3 that the
+construction can be continued under the constraint. In \cite{E} this is derived from a
+quantitative linear-independence claim, justified by the type 1 property.
+
+\subsection*{Results}
+We work with $T=$ multiplication by $\lambda$ on $L^2[0,\kappa]$. This operator has many
+invariant subspaces, so it is not a counterexample to anything. It is a test of the reasoning:
+it is of type 1, and every consequence of the non-existence of invariant subspaces that the
+type 1 argument of \cite{E} invokes holds for it (Section~\ref{sec:discussion} lists them). If
+the reasoning were valid, its conclusion would hold in this operator at every state satisfying
+the hypotheses.
+\begin{itemize}[leftmargin=2em]
+\item Theorem~\ref{thm:main}: there are states satisfying all the hypotheses of \cite{E}, with
+arbitrarily small defect, at which the conclusion fails. The states are explicit, and so are
+their extremal series, so the hypotheses can be verified by inspection.
+\item Theorem~\ref{thm:path}: these states are connected to the starting vector of \cite{E} by
+a finite chain of steps $y\mapsto y+\sum_jr_jT^jy$ along which the defect decreases strictly
+and the hypotheses and bounds that \cite{E} maintains during the MC all hold.
+\end{itemize}
+
+\subsection*{Scope}
+We do not claim that the theorem of \cite{E} is false, nor that no argument of this general
+shape can work. The obstruction uses a structure that an operator without invariant subspaces
+cannot have; Section~\ref{sec:discussion} explains why this is unavoidable in any test of the
+argument and what it leaves open. The steps of the chain in Theorem~\ref{thm:path} are small in
+norm but are not small perturbations in the sense of coefficient size, and we make no claim
+about what a particular rule for choosing MC steps would do.
+
+\subsection*{Conventions}
+$\ip\cdot\cdot$ is linear in the first variable. $T$ is a bounded operator with
+$\norm T=\kappa\le\frac12$ (in \cite{E}, $\kappa=10^{-20}$), injective, with dense range and not
+surjective; \cite{E} reduces to this case. $\ell^2=\ell^2(\N_0)$, with shift $S$.
+
+\section{The framework of \cite{E}}
+
+For $y\in H$ let $V_y:\ell^2\to H$, $V_ya=\sum_{j\ge0}a_jT^jy$; this is bounded since
+$\norm T<1$, and $TV_y=V_yS$. Fix $x_0$ with $\norm{x_0}=1$.
+
+\begin{definition}
+Let $y$ be cyclic and $0<\varepsilon<1$. The \emph{extremal series} of $y$ at level
+$\varepsilon$ is the $a\in\ell^2$ of least norm with $\norm{x_0-V_ya}\le\varepsilon$, and
+$v=V_ya$ is the \emph{extremal image}. For $v\in H$ put
+\[
+\tau(v)=\ip{v}{x_0-v},\qquad\Delta(v)=\sup_{j\ge0}\abs{\ip{T^jv}{x_0-v}} .
+\]
+\end{definition}
+
+\begin{lemma}[\cite{E}, (1)--(17)]\label{lem:framework}
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item The extremal series exists and is unique, $\norm{x_0-v}=\varepsilon$, and there is $t>0$
+with $ta=V_y^*(x_0-v)$. Consequently $\ip{T^jv}{x_0-v}=t\ip{S^ja}{a}$ for all $j$, so
+$\tau(v)=t\norm a^2>0$ and $\Delta(v)=\tau(v)$. Moreover $\norm v\le1$ and
+$x_0-v=t(V_yV_y^*+t)^{-1}x_0$.
+\item Conversely, if $y$ is cyclic, $0\ne a\in\ell^2$, $t>0$ and $ta=V_y^*(x_0-V_ya)$, then
+$a$ is the extremal series of $y$ at level $\norm{x_0-V_ya}$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+This is Tikhonov regularisation. For $t>0$ the functional
+$F_t(b)=\norm{x_0-V_yb}^2+t\norm b^2$ is strictly convex with a unique minimiser, characterised
+by the Euler--Lagrange equation $tb=V_y^*(x_0-V_yb)$. If $a$ satisfies it, and
+$\norm{x_0-V_yb}\le\norm{x_0-V_ya}$, $\norm b\le\norm a$, then $F_t(b)\le F_t(a)$ and $b=a$;
+this is (ii). The residual norm is continuous and strictly increasing in $t$, from $0$ to $1$,
+which gives existence in (i). Then
+$\ip{T^jv}{x_0-v}=\ip{V_yS^ja}{x_0-v}=\ip{S^ja}{V_y^*(x_0-v)}=t\ip{S^ja}{a}$, and
+$1=\norm v^2+\varepsilon^2+2\tau(v)$. Finally
+$(V_yV_y^*+t)(x_0-v)=tV_ya+t(x_0-v)=tx_0$.
+\end{proof}
+
+We call $\tau(v)$ the \emph{defect} of an extremal image; it is $\varepsilon\theta$ in \cite{E}.
+If $\Delta(v)=0$ and $v\notin\{0,x_0\}$, the closed span of the orbit of $v$ is a non-trivial
+invariant subspace. Since $\Delta$ is norm-continuous, it suffices to find extremal images
+$v_n$ that converge in norm, with $\tau(v_n)\to0$ and $\norm{x_0-v_n}$ bounded away from $0$
+and $1$. Norm convergence is the whole difficulty: $\Delta$ is not weakly continuous.
+
+\subsection*{Balanced coefficients}
+\cite{E} normalises $y$ so that $t=1$: with $\hat y=t^{-1/2}y$ and
+$R=(I+V_{\hat y}V_{\hat y}^*)^{-1}$ (written $[\;]^{-1}$ there) one has $Rx_0=x_0-v$ by
+Lemma~\ref{lem:framework}(i). It uses the two sequences
+$a_m=\ip{Rx_0}{T^m\hat y}$ and $b_m=\ip{R^2x_0}{T^m\hat y}$. In terms of an arbitrary
+normalisation $(y,a,t)$ these are
+\begin{equation}\label{eq:balanced}
+\ha=t^{1/2}a,\qquad \hb=t^{3/2}\,(t+V_y^*V_y)^{-1}a ,
+\end{equation}
+because $\hb=V_{\hat y}^*R(x_0-v)=(I+V_{\hat y}^*V_{\hat y})^{-1}V_{\hat y}^*(x_0-v)$ and
+$V_{\hat y}^*(x_0-v)=t^{1/2}a$. Note $\norm{\ha}^2=\tau(v)$.
+
+\subsection*{The confinement device}
+
+\begin{lemma}\label{lem:confine}
+Let $v,v'$ be extremal images, $y'$ a unit vector with
+$\norm{v'/\norm{v'}-y'}\le\vartheta$ and $w\in H$ with $\norm{w-y'}\le\vartheta$. If
+$\ip{x_0-v}{w}=\ip{x_0-v'}{w}$, then
+\[
+\norm{v-v'}^2\le2\tau(v')+8\vartheta+\bigl|\norm{x_0-v'}^2-\norm{x_0-v}^2\bigr| .
+\]
+\end{lemma}
+\begin{proof}
+With $r=x_0-v$, $r'=x_0-v'$ one has the identity
+$\norm{v-v'}^2=\norm{r-r'}^2=2\re\ip{v'}{r}-2\tau(v)+\norm{r'}^2-\norm r^2$, and
+$\tau(v)\ge0$. As $\norm{v'},\norm r,\norm{r'}\le1$ and $\norm{v'/\norm{v'}-w}\le2\vartheta$,
+$\re\ip{v'}{r}\le\norm{v'}\re\ip wr+2\vartheta=\norm{v'}\re\ip w{r'}+2\vartheta
+\le\re\ip{v'}{r'}+4\vartheta=\tau(v')+4\vartheta$.
+\end{proof}
+
+So holding a single inner product fixed confines later states to a ball around $v'$ whose
+radius is small when the defect of $v'$ is small. This is how \cite{E} proposes to obtain
+norm convergence.
+
+\subsection*{The hypotheses on a state}
+\cite{E} calls $T$ of \emph{type 1} if there is a unit vector $u_0$ such that for every
+$n\ge1$ there is $\delta_n>0$ with: every $y\ne0$ with
+$\re\ip{y}{u_0}\ge\frac1{100}\norm y$ has $\abs{\ip{T^jy}{y}}\ge\delta_n\norm y^2$ for some
+$j\ge n$. For such $T$ it takes $x_0=\frac{\sqrt3}2u_0+\frac12u_1$ with $u_1\perp u_0$ a unit
+vector and $\norm{T^*u_1}$ smaller than a number $(\varepsilon\theta)_0$ fixed in advance, and
+$y_0=\frac{\sqrt3}2u_0$ as the starting vector, so that $\norm{x_0-y_0}=\frac12$. The following
+collects what \cite{E} arranges before, and maintains during, the MC.
+
+\begin{definition}\label{def:admissible}
+Let $T$ be of type 1 with vector $u_0$. An extremal image $v=V_ya$, with parameter $t$ and
+defect $\tau=\tau(v)$, is \emph{admissible} if
+\begin{enumerate}[label=\textup{(A\arabic*)},leftmargin=3em]
+\item $y$ is cyclic, $\re\ip y{u_0}\ge\frac1{100}\norm y$, and $0.3<\norm{x_0-v}<0.7$
+\textup{(\cite{E}, p.~4 and (19))};
+\item the leading coefficient dominates: $\abs{a_0}^2\ge100\sum_{j\ge1}\abs{a_j}^2$
+\textup{(\cite{E}, (22))};
+\item the tail is not too small: $\sum_{j\ge1}\abs{a_j}^2\ge\tau^{15}\norm a^2$
+\textup{(\cite{E}, (25) and (33))};
+\item there are four distinct indices $j_1,j_2,j_3,j_4\ge2$ with
+$\abs{\ha_{j_1}},\abs{\ha_{j_2}},\abs{\hb_{j_3}},\abs{\hb_{j_4}}>\tau^{30}$
+\textup{(\cite{E}, Remark after (27))}.
+\end{enumerate}
+\end{definition}
+
+Some remarks on how this matches the text of \cite{E}. (1) The cone condition there is
+$\ip{y/\norm y}{u_0}\ge\frac1{100}$; with the real part the cone is larger, so type 1 in
+our sense implies type 1 in the sense of \cite{E}, and the type 1 inequalities for $y$ hold
+by (A1). (2) \cite{E} states the range in (A1) once for $\varepsilon=\norm{x_0-v}$ and once
+(after (37)) for $\ip{Rx_0}{x_0}=\varepsilon^2+\tau$. The second cannot be meant, since it
+fails at the paper's own start, where $\varepsilon=\frac12$. (3) (A3) is the stronger of the
+two forms in \cite{E}: (25) is stated in the normalisation $a_0\approx1$, and (33) has a
+factor $\frac12$. (4) In (A4) we read $a_m,b_m$ in the balanced normalisation in which
+\cite{E} defines them; the states below satisfy (A4) in the normalisation $\norm y\approx1$
+as well. (5) \cite{E}, (33) also contains an upper bound for the tail, of the form
+$\gamma'(\tau)\norm a^2$ with an unspecified function $\gamma'\to0$ coming from its
+Lemma~2. It is described there as automatic and we do not make it a hypothesis; for all
+states below the tail is at most $\tau^2\norm a^2$.
+
+\subsection*{The claim under examination}
+At a stage $n_0'$ of the MC where the defect is small, with $y'=y_{n_0'}/\norm{y_{n_0'}}$, the
+paper sets
+\[
+w_{00}=y'+\delta_2^{100}\,T^{*j_1}y'+\delta_2^{100}\,T^{*j_2}y'
+\]
+for certain indices $j_1,j_2$ supplied by the type 1 property, and requires all later steps to
+keep $\ip{x_0-v_n}{w_{00}}$ fixed. It then asserts (\cite{E}, text after (46)) that the vectors
+governing the constrained steps are
+\begin{quote}
+``$\delta_2$-linearly independent to arbitrarily small $\varepsilon\theta$'s, since with
+the condition
+\[\langle ch\,[\;]^{-1}_nx_0,w_{00}\rangle=0\]
+the room for variation of $[\;]^{-1}_nx_0$ is less than $\delta_2^{40}$'',
+\end{quote}
+which ``will allow MC to be used to arbitrarily small $\varepsilon\theta$'s''. Earlier,
+\cite{E} (45) bounds the change of $\ip{Rx_0}{x_0}=\norm{x_0-v}^2+\tau(v)$ during the
+construction by $10$ times the initial defect. In our notation:
+
+\begin{quote}
+\textbf{Claim (C).} \emph{Let $T$ be of type 1 and let $v'$ be an admissible extremal image
+with sufficiently small defect. Then there are extremal images $v_n$ with $\tau(v_n)\to0$,
+$\ip{x_0-v_n}{w_{00}}=\ip{x_0-v'}{w_{00}}$ and
+$\bigl|\norm{x_0-v_n}^2-\norm{x_0-v'}^2\bigr|\le11\,\tau(v')$.}
+\end{quote}
+
+In \cite{E} the stage $n_0'$ is ``suitable'', and ``we can wait until $(\varepsilon\theta)_n$
+is arbitrarily small''; no criterion of suitability other than small defect is given, and the
+same step is repeated at arbitrarily late stages with $w_{01},w_{02},\dots$. We therefore
+state the claim for every admissible state of small defect. Section~\ref{sec:reach} addresses
+the possibility that the states the MC visits are special.
+
+The only reasons given are the type 1 inequalities, used to argue linear independence. Since
+$\norm{w_{00}-y'}\le2\delta_2^{100}$, Lemma~\ref{lem:confine} shows that the $v_n$ of Claim (C)
+all lie in a small ball around $v'$. So Claim (C) can hold only if that ball contains vectors
+of arbitrarily small defect.
+
+\section{A no-continuation inequality}
+
+\begin{theorem}\label{thm:nogo}
+Let $T$ be a bounded operator on $H$, $W$ an isometry of $H$, $x_0\in H$,
+$v=\frac12(x_0+Wx_0)$ and $C=\frac12(W+W^*)$.
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item For every $u\in H$,
+\[
+\norm{u-v}^2\ \ge\ \tfrac14\bigl(\norm{x_0}^2-\norm{Cx_0}^2\bigr)
++\tfrac12\re\ip{(W-W^*)u}{x_0-u}.
+\]
+\item Suppose $W=\sum_kc_kT^k$ and $W^*=\sum_kc_k'T^k$, convergent in operator norm, with
+$\sum_k\abs{c_k}\le K$ and $\sum_k\abs{c_k'}\le K$. Then for every $u\in H$,
+\[
+\Delta(u)\ \ge\ \frac1K\Bigl(\tfrac14\bigl(\norm{x_0}^2-\norm{Cx_0}^2\bigr)-\norm{u-v}^2\Bigr).
+\]
+\item If $W$ is unitary and commutes with $T$, then
+$\ip{T^jv}{x_0-v}=\frac14\ip{T^j(W-W^*)x_0}{x_0}$ for all $j\ge0$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(i) Let $B=-\frac14(W-W^*)$, so $B^*=-B$. Then $\re\ip{Bu}{u}=0$ and
+$\re\ip{Bu}{x_0}=-\re\ip{u}{Bx_0}$, whence for every $u$
+\[
+\norm{u-v}^2+2\re\ip{Bu}{x_0-u}=\norm{u-(v+Bx_0)}^2+\norm v^2-\norm{v+Bx_0}^2
+\ \ge\ \norm v^2-\norm{v+Bx_0}^2 .
+\]
+Now $v+Bx_0=\frac12x_0+\frac12Cx_0$. Using $\norm{Wx_0}=\norm{x_0}$ and
+$\re\ip{Cx_0}{x_0}=\re\ip{Wx_0}{x_0}$,
+$\norm v^2=\frac12\norm{x_0}^2+\frac12\re\ip{Wx_0}{x_0}$ and
+$\norm{v+Bx_0}^2=\frac14\norm{x_0}^2+\frac12\re\ip{Wx_0}{x_0}+\frac14\norm{Cx_0}^2$.
+(ii) $\abs{\ip{Wu}{x_0-u}}\le\sum_k\abs{c_k}\abs{\ip{T^ku}{x_0-u}}\le K\Delta(u)$ and likewise
+for $W^*$; insert in (i). (iii) Expand, using $\ip{Wa}{Wb}=\ip ab$ and $WT^j=T^jW$.
+\end{proof}
+
+Part (ii) says: if $x_0$ is not nearly fixed by $C$, then every vector in a ball of definite
+radius around $v$ has defect bounded below. Part (iii) says that $v$ itself has small defect
+when $W-W^*$ is small against the orbit of $x_0$. Both can hold at once.
+
+Theorem~\ref{thm:nogo} has been formalised in Lean~4 with Mathlib (file
+\texttt{Oscillating.lean} of the accompanying project); parts (i), (ii), (iii) are the
+theorems
+\begin{center}
+\texttt{oscillating\_lower\_bound},\quad\texttt{oscillating\_ball\_bound},\quad
+\texttt{oscillating\_defect}.
+\end{center}
+
+\section{The model operator and its extremal images}\label{sec:model}
+
+Let $0<\kappa\le\frac12$, $H=L^2[0,\kappa]$ with Lebesgue measure and
+$(Tf)(\lambda)=\lambda f(\lambda)$. Let $u_0=\kappa^{-1/2}\one$ and
+$k=\frac{\sqrt3}2\kappa^{-1/2}$, so that $y_0=\frac{\sqrt3}2u_0$ is the constant function $k$,
+and $k^2\kappa=\frac34$.
+
+\begin{lemma}\label{lem:model}
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item $T$ is injective with dense range and not surjective; $f$ is cyclic iff $f\ne0$ a.e.
+\item $T$ is of type 1 with the vector $u_0$ (indeed with any unit vector).
+\item If $d\ne0$ and $\abs{c_j}\le1$ for $j\ge1$, then $d-\sum_{j\ge1}c_jT^j$ is injective.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(i) is standard (Weierstrass). (ii) Pick $\eta>0$ with
+$\norm{u_0\one_{[0,\eta]}}\le\frac1{200}$. If $\norm y=1$ and
+$\re\ip y{u_0}\ge\frac1{100}$ then $\norm{y\one_{(\eta,\kappa]}}\ge\frac1{200}$, so
+$\ip{T^jy}{y}=\int\lambda^j\abs y^2\ge\eta^j/40000$ for all $j$. (iii) The function
+$d-\sum_jc_j\lambda^j$ is real-analytic and not identically zero, hence non-zero a.e.
+\end{proof}
+
+\subsection{The choice of $x_0$}
+Let $L(z)=-z^{-1}\log(1-z)=\sum_{j\ge0}z^j/(j+1)$, so $1\le L(z)\le1+z$ for $0\le z\le\frac14$.
+In this section ``$t_0$ small'' means smaller than a constant depending only on $\kappa$.
+
+\begin{lemma}\label{lem:x0}
+For every small $t_0>0$ there are $\mu\in(\frac12,1)$ and $\sigma\in(0,8t_0^2/k^2)$ such that,
+with $h=t_0\mu/(k\sigma)$,
+\[
+x_0\;=\;k\mu\,L(\sigma\lambda)+h\,\one_{[0,\sigma]}
+\]
+is a unit vector with $\ip{x_0}{u_0}=\frac{\sqrt3}2$. Put $u_1=2(x_0-y_0)$ and
+$\varepsilon_0=h\sigma^{1/2}$. Then $u_1$ is a unit vector orthogonal to $u_0$,
+$x_0=\frac{\sqrt3}2u_0+\frac12u_1$, $\norm{T^*u_1}\le\frac23t_0+O(t_0^2)$,
+$\abs{\mu^{-1}-1-\frac43t_0}=O(t_0^2)$ and $\varepsilon_0^2=\frac14+O(t_0^2)$. Moreover the
+extremal image of $y_0$ with parameter $t_0$ is
+\[
+v_0=k\mu L(\sigma\lambda)=x_0-h\one_{[0,\sigma]},\qquad\text{with series }
+a^{(0)}_j=\frac{\mu\,\sigma^j}{j+1},
+\]
+so $\norm{x_0-v_0}=\varepsilon_0$ and
+$\tau(v_0)=t_0\mu^2\Lambda(\sigma)$, where $\Lambda(\beta)=\sum_{j\ge0}\beta^{2j}/(j+1)^2$.
+\end{lemma}
+\begin{proof}
+The condition $\ip{x_0}{u_0}=\frac{\sqrt3}2$ reads $k\mu I(\sigma)+h\sigma=k\kappa$ with
+$I(\sigma)=\int_0^\kappa L(\sigma\lambda)\,d\lambda\in[\kappa,\kappa(1+\sigma\kappa)]$, and
+$h\sigma=t_0\mu/k$, so it determines $\mu=\mu(\sigma)=\kappa/(I(\sigma)+t_0k^{-2})$,
+continuous in $\sigma$. With this $\mu$,
+\[
+\norm{x_0}^2=\mu^2\Bigl(k^2\!\int_0^\kappa\!L(\sigma\lambda)^2d\lambda
++\frac{2t_0}\sigma\!\int_0^\sigma\!L(\sigma\lambda)\,d\lambda+\frac{t_0^2}{k^2\sigma}\Bigr)
+\]
+is continuous in $\sigma$, tends to $\infty$ as $\sigma\to0$, and at $\sigma=8t_0^2/k^2$ is at
+most $(1+\frac43t_0)^{-2}(\frac34+\frac18+O(t_0))<1$. So there is a root
+$\sigma<8t_0^2/k^2$. The asymptotics follow by expanding the two equations. As
+$\norm{x_0}=1$ and $\ip{x_0}{y_0}=\frac34=\norm{y_0}^2$, $u_1$ is a unit vector orthogonal to
+$u_0$; and $u_1=2k(\mu L(\sigma\lambda)-1)+2h\one_{[0,\sigma]}$ gives
+$\norm{Tu_1}\le2k\,\bigl(1-\mu+O(t_0^2)\bigr)\kappa^{3/2}/\sqrt3+2h\sigma^{3/2}
+\le\frac43\kappa t_0+O(t_0^2)$; and $T^*=T$.
+
+For the last statement, $V_{y_0}a^{(0)}=k\sum_ja^{(0)}_j\lambda^j=v_0$ and
+\[
+\ip{x_0-v_0}{T^jy_0}=kh\!\int_0^\sigma\!\lambda^j\,d\lambda=\frac{t_0\mu\,\sigma^{j}}{j+1}
+=t_0a^{(0)}_j ,
+\]
+so Lemma~\ref{lem:framework}(ii) applies, and $\tau(v_0)=t_0\norm{a^{(0)}}^2$.
+\end{proof}
+
+From now on $t_0$ is small and $x_0,\mu,\sigma,h,\varepsilon_0$ are as in Lemma~\ref{lem:x0}.
+Thus $x_0$ is of the form prescribed in \cite{E}, and $v_0$ is the extremal image of the
+paper's starting vector $y_0$ at the level $\varepsilon_0=\frac12+O(t_0^2)$; its defect
+$\tau(v_0)=t_0(1+O(t_0))$ is as small as we please and exceeds $\norm{T^*u_1}$, so the
+requirement $\norm{T^*u_1}<(\varepsilon\theta)_0$ of \cite{E} holds for any
+$(\varepsilon\theta)_0\ge\tau(v_0)$. Two differences from \cite{E} should be noted.
+\cite{E}, Lemma~1 takes a level in $(\frac12-10^{-5}(\varepsilon\theta)_0,\frac12]$; ours is
+$O(t_0^2)$ above $\frac12$. And \cite{E} does not start the MC at the extremal image of $y_0$
+itself but after a preparation (its Lemma~2 and Cases I, II) whose purpose is to obtain
+(A2)--(A4); here $v_0$ already has these properties (Theorem~\ref{thm:path}), so no
+preparation is needed. We record that $h\ge k$, that $h\le x_0\le(1+9t_0)h$ on $[0,\sigma]$, and that
+$\frac12k\le x_0\le1.01k$ on $(\sigma,\kappa]$.
+
+\subsection{A formula for extremal images}
+In the model every extremal image can be written down from a single function.
+
+\begin{lemma}\label{lem:explicit}
+Let $\psi\in L^\infty[0,\kappa]$ be complex-valued with $t:=\int x_0^2\re\psi\,d\lambda>0$.
+Put
+\[
+a_j=\frac1t\int_0^\kappa\lambda^jx_0^2\,\overline\psi\,d\lambda,\qquad
+A(\lambda)=\sum_{j\ge0}a_j\lambda^j,\qquad c=\psi A .
+\]
+Suppose that $A$ has no zero on $[0,\kappa]$ and that $\re c+(\operatorname{Im}c)^2\le\frac14$
+a.e. Let $\varsigma:[0,\kappa]\to\{1,-1\}$ be measurable and
+\[
+g=\tfrac12+\varsigma\sqrt{\tfrac14-\re c-(\operatorname{Im}c)^2}+i\operatorname{Im}c,
+\qquad v=x_0g,\qquad y=v/A .
+\]
+If $g\ne0$ a.e., then $y$ is cyclic, $v$ is the extremal image of $y$ at level
+$\norm{x_0-v}$, with extremal series $a$ and parameter $t$; and $\tau(v)=t\norm a^2$.
+\end{lemma}
+\begin{proof}
+The series for $A$ converges uniformly on $[0,\kappa]$ since
+$\abs{a_j}\le\kappa^jt^{-1}\norm{\psi}_\infty$. One checks $g-\abs g^2=c$. Then
+$V_ya=Ay=v$ and, as $x_0$ is real,
+\[
+\ip{x_0-v}{T^jy}=\int\lambda^jx_0^2\,\frac{(1-g)\overline g}{\overline A}\,d\lambda
+=\int\lambda^jx_0^2\,\frac{\overline c}{\overline A}\,d\lambda
+=\int\lambda^jx_0^2\,\overline\psi\,d\lambda=t\,a_j .
+\]
+Now apply Lemma~\ref{lem:framework}.
+\end{proof}
+
+
+
+\subsection{A family of states}\label{ssec:states}
+For $0<\beta\le\sigma$, $0\le\alpha\le\alpha_{\max}:=1.54$ and $N\in\N$ let
+$S(\beta,\alpha,N)$ be the data produced by Lemma~\ref{lem:explicit} from
+\[
+\psi=\begin{cases}\dfrac{\mu^2t_0}{\sigma}\,x_0^{-2}&\text{on }[0,\beta],\\[2ex]
+\dfrac i2\,\dfrac{\sin(\alpha\sin N\lambda)}{L(\beta\lambda)}&\text{on }(\beta,\kappa],
+\end{cases}
+\qquad \varsigma=\begin{cases}-1&\text{on }[0,\beta],\\+1&\text{on }(\beta,\kappa].\end{cases}
+\]
+Then $t=t(\beta):=\mu^2t_0\beta/\sigma$ and
+\begin{equation}\label{eq:aj}
+a_j=\frac{\beta^j}{j+1}-\frac{i}{t}\,p_j,\qquad
+p_j=\frac12\int_\beta^\kappa\lambda^jx_0^2\,\frac{\sin(\alpha\sin N\lambda)}{L(\beta\lambda)}\,
+d\lambda\in\R .
+\end{equation}
+The first term of $a_j$ is the $j$-th moment of the uniform probability measure on
+$[0,\beta]$ and sums to $L(\beta\lambda)$; the second is small when $N$ is large, by
+cancellation. On $(\beta,\kappa]$ the state is, up to this small term, $x_0$ multiplied by
+$\frac12(1+e^{i\alpha\sin N\lambda})$; on $[0,\beta]$ it is close to $0$.
+
+We use Fej\'er's lemma in the following form: if $\mathcal F\subset L^1[0,\kappa]$ and
+$\mathcal H\subset C(\R/2\pi\mathbb Z)$ are norm-compact, then
+$\int f(\lambda)h(N\lambda)\,d\lambda\to\bar h\int f$ as $N\to\infty$, uniformly for
+$f\in\mathcal F$, $h\in\mathcal H$, where $\bar h$ is the mean of $h$. Put
+\[
+\omega_N=\sup\Bigl\{\sum_{j\ge0}\abs{p_j}:0<\beta\le\sigma,\ 0\le\alpha\le\alpha_{\max}\Bigr\},
+\qquad\rhoN=\rhoN(\beta,N)=\omega_N/t(\beta).
+\]
+Since $t\mapsto\sin(\alpha\sin t)$ has mean $0$ and $\abs{p_j}\le\frac12\kappa^j$, Fej\'er's
+lemma gives $\omega_N\to0$. Let
+\[
+m(\beta)=\int_0^\beta x_0^2,\qquad
+g_\beta=\tfrac12-\sqrt{\tfrac14-\tfrac{\mu^2t_0}{\sigma}L(\beta\lambda)x_0^{-2}},\qquad
+D(\beta)=\int_0^\beta x_0^2(1-g_\beta)^2 ,
+\]
+\[
+\varepsilon_\infty^2(\beta,\alpha)=D(\beta)+\tfrac12\bigl(1-J_0(\alpha)\bigr)\bigl(1-m(\beta)\bigr),
+\qquad v_N^\alpha=\tfrac12\bigl(x_0+e^{i\alpha\sin(NT)}x_0\bigr),
+\]
+where $J_0$ is the Bessel function; recall that the mean of $\sin^2(\frac12\alpha\sin t)$ is
+$\frac12(1-J_0(\alpha))$.
+
+\begin{proposition}\label{prop:states}
+Let $0<\beta\le\sigma$, $0\le\alpha\le\alpha_{\max}$ and $\rhoN\le10^{-5}$. Then
+$S(\beta,\alpha,N)=(y,a,t,v)$ is well defined: $v$ is the extremal image of the cyclic vector
+$y$, with series $a$ and parameter $t=t(\beta)$. Moreover:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item $\sum_j\abs{a_j-\beta^j/(j+1)}\le\rhoN$, $\abs{a_j}\ge\beta^j/(j+1)$, and
+$\tau(v)=t(\beta)\bigl(\Lambda(\beta)+\delta\bigr)$ with $0\le\delta\le\rhoN^2$;
+\item $\frac14\beta^2\le\sum_{j\ge1}\abs{a_j}^2\le\beta^2+\rhoN^2$;
+\item $\abs y\ge\frac15k$ a.e., $\norm y^2\le2$, $\re\ip y{u_0}\ge\frac1{100}\norm y$, and
+$\bigl\|v/\norm v-y/\norm y\bigr\|\le2(\sigma+\rhoN)$;
+\item $\bigl|\norm{x_0-v}^2-\varepsilon_\infty^2(\beta,\alpha)\bigr|\le100\rhoN+\phi_N$,
+where $\phi_N\to0$ as $N\to\infty$ uniformly in $(\beta,\alpha)$;
+\item $\norm{v-v_N^\alpha}^2\le1.11\,m(\beta)+(100\rhoN)^2$, and
+$m(\beta)\le0.31\,\beta/\sigma$.
+\end{enumerate}
+For fixed $N$ the map $(\beta,\alpha)\mapsto(y,a,v)$ is norm-continuous where it is defined,
+and $S(\sigma,0,N)=(\mu y_0,\mu^{-1}a^{(0)},\mu^2t_0,v_0)$ for every $N$: the state at
+$(\sigma,0)$ is the extremal image of $y_0$ of Lemma~\ref{lem:x0}.
+\end{proposition}
+\begin{proof}
+By \eqref{eq:aj}, $A=L(\beta\lambda)(1+\zeta)$ with $\abs\zeta\le\rhoN$ on $[0,\kappa]$, since
+$L\ge1$. So $A$ has no zeros and $0.99\le\abs A\le1.01$.
+
+\emph{On $(\beta,\kappa]$.} Here $c=\frac i2s(1+\zeta)$ with $s=\sin(\alpha\sin N\lambda)$,
+$\abs s\le\sin\alpha_{\max}$, and
+\[
+\tfrac14-\re c-(\operatorname{Im}c)^2=\tfrac14(1-s^2)+\epsilon,\qquad\abs\epsilon\le1.25\rhoN .
+\]
+As $\frac14\cos^2\alpha_{\max}>2.3\cdot10^{-4}$, the radicand is positive, and comparing with
+$g_N:=\frac12(1+e^{i\alpha\sin N\lambda})=\frac12+\frac12\sqrt{1-s^2}+\frac i2s$ we get
+$\abs{g-g_N}\le1.25\rhoN/(\frac12\cos\alpha_{\max})+\frac12\rhoN\le82\rhoN$. In particular
+$\re g\ge\frac12$, $\abs g\le1.01$, $\re(g/A)\ge0.48$ and $\abs{g/A}\le1.04$. Also
+$\abs{1-g}^2=1-\re g-\re c$ differs from
+$\abs{1-g_N}^2=\sin^2(\frac12\alpha\sin N\lambda)$ by at most $82\rhoN$.
+
+\emph{On $[0,\beta]$.} Here $c=c_\beta(1+\zeta)$ with
+$c_\beta=\mu^2t_0\sigma^{-1}L(\beta\lambda)x_0^{-2}\in(0,5t_0]$, because $x_0\ge h$ and
+$\mu^2t_0/(\sigma h^2)=\mu^2t_0/\varepsilon_0^2$. For $\abs c\le0.05$ the root
+$g=\frac12-\sqrt{\frac14-\re c-(\operatorname{Im}c)^2}+i\operatorname{Im}c$ satisfies
+$\abs{g-c}\le2.5\abs c^2$ and depends on $c$ with Lipschitz constant at most $3$. Hence the
+radicand is positive, $g\ne0$, $\abs{g-g_\beta}\le\rhoN$, and
+$y=x_0g/A=\mu^2t_0\sigma^{-1}x_0^{-1}(1+\zeta')$ with $\abs{\zeta'}\le0.11$; as
+$\mu^2t_0/(\sigma h)=\mu k$ this gives $0.4k\le\abs y\le1.11k$ and $\re y\ge0$ there.
+
+So Lemma~\ref{lem:explicit} applies. (i) follows from \eqref{eq:aj}, because $p_j$ is real:
+$\abs{a_j}^2=\beta^{2j}/(j+1)^2+p_j^2/t^2$. (ii) follows from (i). For (iii), on
+$(\beta,\kappa]$ we have $0.48x_0\le\abs y\le1.04x_0$ and $x_0\ge\frac12k$, so
+$\abs y\ge\frac15k$ everywhere and $\norm y^2\le1.09+1.24k^2\sigma\le2$; and
+$\ip y{u_0}=\kappa^{-1/2}\int y$ has real part at least
+$0.48\,\kappa^{-1/2}\int_\sigma^\kappa x_0\ge0.2$. Finally $\norm{v-y}=\norm{(A-1)y}\le
+(\sigma\kappa+\rhoN)\norm y$. For (iv) and (v) combine the two comparisons above:
+$\abs{1-g}^2$ differs from $(1-g_\beta)^2$ on $[0,\beta]$ and from
+$\sin^2(\frac12\alpha\sin N\lambda)$ on $(\beta,\kappa]$ by at most $82\rhoN$, and
+$\phi_N:=\sup_{\beta,\alpha}\bigl|\int_\beta^\kappa x_0^2\sin^2(\frac12\alpha\sin N\lambda)
+-\frac12(1-J_0(\alpha))(1-m(\beta))\bigr|\to0$ by Fej\'er's lemma; and
+$\abs{g-g_N}\le1.05$, so $\abs{g-g_N}^2\le1.11$, on $[0,\beta]$, where $x_0^2\le1.2h^2$ and $h^2\sigma=\varepsilon_0^2$.
+
+Continuity is clear from the formulas (the functions $\psi$ depend continuously on
+$(\beta,\alpha)$ in $L^1(x_0^2d\lambda)$ and boundedly, so the $a_j$, and then $A$ uniformly,
+and then $g$ in measure and boundedly). At $(\sigma,0)$ we have $p_j=0$,
+$A=L(\sigma\lambda)$, $c=0$ and $g=1$ on $(\sigma,\kappa]$, while on $[0,\sigma]$ the function
+$g=k\mu L(\sigma\lambda)/x_0<\frac12$ satisfies $g-g^2=k\mu Lh/x_0^2=c$. So $v=k\mu
+L(\sigma\lambda)=v_0$ and $y=v/A=\mu y_0$.
+\end{proof}
+
+\subsection{The coefficients $\hb_j$}
+By \eqref{eq:balanced}, $\hb=t^{3/2}(t+G)^{-1}a$, where in the model $G=V_y^*V_y$ is the Hankel
+matrix $G_{jk}=\int\lambda^{j+k}\abs y^2d\lambda$. The next lemma gives the lower bounds
+required in (A4). For a positive Borel measure $\nu$ on $[0,\kappa]$ write
+$G_\nu=(\int\lambda^{j+k}d\nu)_{j,k\ge0}$, a bounded positive operator on $\ell^2$.
+
+\begin{lemma}\label{lem:two}
+Let $0<w_-\le w_+$. There are $c_0,\eta_0>0$, depending only on $\kappa,w_-,w_+$, such that
+the following holds. Let $\nu$ be a Borel measure on $[0,\kappa]$ with
+$\nu\ge w_-\,d\lambda$ and $\nu([0,\kappa])\le w_+$, let $0<t\le1$, $0<\beta\le\frac12\kappa$,
+and let $s\in\ell^2$ satisfy $\sup_j\abs{s_j-\beta^j/(j+1)}\le\eta_0$. Then
+$e=(t+G_\nu)^{-1}s$ has $\abs{e_j}\ge c_0$ for at least two indices $j\ge2$.
+\end{lemma}
+\begin{proof}
+Suppose not. Then there are $\nu_n,t_n,\beta_n,s^{(n)}$ as in the statement with
+$\eta_0=1/n$, and $\theta_n\to0$, such that $e^{(n)}=(t_n+G_{\nu_n})^{-1}s^{(n)}$ has
+$\abs{e^{(n)}_j}\le\theta_n$ for all $j\ge2$ except possibly one index $j_n\ge2$. Write $e$
+for $e^{(n)}$ and $E(\lambda)=\sum_je_j\lambda^j$. The equation $(t_n+G_{\nu_n})e=s^{(n)}$
+reads
+\begin{equation}\label{eq:rows}
+t_ne_j+\int\lambda^jE\,d\nu_n=s^{(n)}_j\qquad(j\ge0),
+\end{equation}
+and $E=e_0+e_1\lambda+e_{j_n}\lambda^{j_n}+R_n$ with $\sup\abs{R_n}\le\theta_n$. Let
+$w_n=\int\lambda^{j_n}d\nu_n$ and let $\pi_n=\lambda^{j_n}\nu_n/w_n$, a probability measure.
+Passing to a subsequence we may assume: $\nu_n\to\nu$ weak$^*$, where again
+$\nu\ge w_-d\lambda$; $t_n\to t\in[0,1]$; $\beta_n\to\beta\in[0,\frac12\kappa]$, so that
+$s^{(n)}_j\to\int\lambda^jd\pi^\beta$ for each $j$, where $\pi^\beta$ is the uniform
+probability measure on $[0,\beta]$ ($\pi^0=\delta_0$); either $j_n=j_*$ for all $n$ or
+$j_n\to\infty$; and $\pi_n\to\pi$ weak$^*$. In the first case $\pi=\lambda^{j_*}\nu/\!\int
+\lambda^{j_*}d\nu$. In the second $\pi=\delta_\kappa$, because $\nu_n\ge w_-d\lambda$ near
+$\kappa$ and $\nu_n$ has mass at most $w_+$.
+
+Let $M_n=\abs{e_0}+\abs{e_1}+\abs{e_{j_n}}w_n$. Suppose first that $M_n$ is bounded; we may
+assume $(e_0,e_1,e_{j_n}w_n)\to(\epsilon_0,\epsilon_1,\epsilon')$. Fix $j\ge2$ with
+$j\ne j_*$. For large $n$, $\abs{e_j}\le\theta_n$, and letting $n\to\infty$ in
+\eqref{eq:rows} gives $\int\lambda^jd\Xi=0$ for the signed measure
+\[
+\Xi=\pi^\beta-(\epsilon_0+\epsilon_1\lambda)\nu-\epsilon'\pi .
+\]
+So all moments of $\lambda^2\Xi$ vanish, except possibly the one of order $j_*-2$ when $j_*$
+is finite. In either case $\lambda^{J}\Xi$ has all moments zero for some $J$, hence
+$\lambda^J\Xi=0$ and $\Xi$ is carried by $\{0\}$. On $(\frac12\kappa,\kappa]$ the measure
+$\pi^\beta$ vanishes. If $j_*$ is finite this gives $P\nu=0$ there for the polynomial
+$P=\epsilon_0+\epsilon_1\lambda+\epsilon'\lambda^{j_*}/\!\int\lambda^{j_*}d\nu$, so $P=0$
+because $\nu\ge w_-d\lambda$. If $j_n\to\infty$ it gives
+$(\epsilon_0+\epsilon_1\lambda)\nu+\epsilon'\delta_\kappa=0$ on $(\frac12\kappa,\kappa]$, so
+again $\epsilon_0=\epsilon_1=0$ and then $\epsilon'=0$. Thus
+$\epsilon_0=\epsilon_1=\epsilon'=0$. But the limit of \eqref{eq:rows} for $j=0$ is
+$t\epsilon_0+\int(\epsilon_0+\epsilon_1\lambda)d\nu+\epsilon'=1$, a contradiction.
+
+If $M_n$ is unbounded, pass to a subsequence with $M_n\to\infty$, divide \eqref{eq:rows} by
+$M_n$ and argue in the same way with
+$\Xi=-(\epsilon_0+\epsilon_1\lambda)\nu-\epsilon'\pi$, where now
+$\abs{\epsilon_0}+\abs{\epsilon_1}+\abs{\epsilon'}=1$: again $\Xi$ is carried by $\{0\}$,
+which forces $\epsilon_0=\epsilon_1=\epsilon'=0$, a contradiction.
+\end{proof}
+
+\section{Failure of Claim (C)}
+
+Theorem~\ref{thm:nogo} enters through the vectors $v_N^\alpha$.
+
+\begin{lemma}\label{lem:osc}
+Let $W=e^{i\alpha\sin(NT)}$, multiplication by $e^{i\alpha\sin N\lambda}$, and
+$C=\frac12(W+W^*)$. Then $W$ and $W^*$ are power series in $T$ with absolute coefficient sums
+at most $K_N=\exp(\alpha\sinh N)$, and
+$\frac14(\norm{x_0}^2-\norm{Cx_0}^2)\to\frac18(1-J_0(2\alpha))$ as $N\to\infty$, uniformly in
+$\alpha\in[0,\alpha_{\max}]$. For $\alpha\in[1.45,1.54]$ the limit is at least $0.15$.
+\end{lemma}
+\begin{proof}
+$\sin(Nz)$ has power series coefficients of absolute sum $\sinh N$, and absolute sums of
+coefficients are submultiplicative. $C$ is multiplication by $\cos(\alpha\sin N\lambda)$, so
+$\norm{x_0}^2-\norm{Cx_0}^2=\int x_0^2\sin^2(\alpha\sin N\lambda)$, and the mean of
+$\sin^2(\alpha\sin t)$ is $\frac12(1-J_0(2\alpha))$; use Fej\'er's lemma. Finally
+$J_0\le-0.22$ on $[2.9,3.08]$.
+\end{proof}
+
+\begin{theorem}\label{thm:main}
+Let $t_0$ be small, $x_0$ as in Lemma~\ref{lem:x0}, and $\alpha\in[1.45,1.54]$. There is
+$\beta_*>0$, and for each $\beta\in(0,\beta_*]$ an $N_*(\beta)$, such that for
+$N\ge N_*(\beta)$ the state $S(\beta,\alpha,N)=(y,a,t,v)$ has the following properties.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $v$ is an admissible extremal image in the sense of
+Definition~\ref{def:admissible}, with $0.46<\norm{x_0-v}<0.52$.
+\item $\tau(v)\le2\mu^2t_0\,\beta/\sigma$. In particular $\tau(v)\to0$ as $\beta\to0$.
+\item If $w\in H$ satisfies $\norm{w-y/\norm y}\le10^{-3}$ and $u$ is any extremal image with
+\[
+\ip{x_0-u}{w}=\ip{x_0-v}{w}\quad\text{and}\quad
+\bigl|\norm{x_0-u}^2-\norm{x_0-v}^2\bigr|\le11\,\tau(v),
+\]
+then $\tau(u)\ge\frac1{10}\exp(-\alpha\sinh N)>0$.
+\item More generally, every $u\in H$ with $\norm{u-v}\le\frac1{10}$ has
+$\Delta(u)\ge\frac1{10}\exp(-\alpha\sinh N)$.
+\end{enumerate}
+In particular Claim~\textup{(C)} fails for $v'=v$, with $w=w_{00}$, although the defect of
+$v'$ can be taken as small as we please. Part \textup{(d)} does not involve the bookkeeping
+of \textup{(45)}: the ``room for variation'' that the constraint leaves, in the words of
+\cite{E}, contains no vectors of small defect at all.
+\end{theorem}
+\begin{proof}
+Let $c_0,\eta_0$ be the constants of Lemma~\ref{lem:two} for $w_-=k^2/25$ and $w_+=2$; they
+depend only on $\kappa$. Choose $\beta_*\le\sigma/400$, and $N_*(\beta)$ so large that
+$\rhoN\le\min(10^{-5},\eta_0,\beta)$ and $\phi_N\le10^{-3}$ for $N\ge N_*(\beta)$, and the
+quantity in Lemma~\ref{lem:osc} is at least $0.149$. All statements of
+Proposition~\ref{prop:states} are then available.
+
+(b) By Proposition~\ref{prop:states}(i), $t\le\tau(v)\le t(\Lambda(\beta)+\rhoN^2)\le2t$.
+
+(a) (A1): $y$ is cyclic and lies in the cone by Proposition~\ref{prop:states}(iii). By (iv),
+$\norm{x_0-v}^2$ is within $2\cdot10^{-3}$ of $\varepsilon_\infty^2(\beta,\alpha)$, which
+differs from $\frac12(1-J_0(\alpha))\in[0.229,0.256]$ by at most $m(\beta)\le10^{-3}$.
+(A2): by (ii), $\sum_{j\ge1}\abs{a_j}^2\le2\beta^2\le\frac1{100}\le\frac1{100}\abs{a_0}^2$.
+(A3): by (i) and (ii), $\sum_{j\ge1}\abs{a_j}^2\ge\frac14\beta^2\ge\frac15\beta^2\norm a^2$.
+Now $\beta=\sigma t/(\mu^2t_0)\ge\xi\tau(v)$ with
+$\xi=\sigma/(2\mu^2t_0)=t_0/(2k^2\varepsilon_0^2)$, and $\tau(v)\le2t_0$, so
+$\frac15\beta^2\ge\frac15\xi^2\tau^2\ge\tau^{15}$ once $t_0$ is small.
+(A4): for $j\in\{2,3,4,5\}$, $\abs{\ha_j}=t^{1/2}\abs{a_j}\ge t^{1/2}\beta^5/6\ge
+(\tau/2)^{1/2}(\xi\tau)^5/6>\tau^{30}$ once $t_0$ is small. For $\hb$ apply
+Lemma~\ref{lem:two} with $\nu=\abs y^2d\lambda$ and $s=a$: its hypotheses hold by
+Proposition~\ref{prop:states}(i),(iii), so $\abs{\hb_j}=t^{3/2}\abs{e_j}\ge c_0t^{3/2}\ge
+c_0(\tau/2)^{3/2}>\tau^{30}$ for two indices $j\ge2$, once $t_0$ is small. Choose $j_3,j_4$
+to be these and $j_1,j_2\in\{2,3,4,5\}$ different from them.
+
+(d) By
+Proposition~\ref{prop:states}(v), $\norm{v-v_N^\alpha}^2\le10^{-3}$, so
+$\norm{u-v_N^\alpha}^2\le(0.1+0.032)^2\le0.02$, and Theorem~\ref{thm:nogo}(ii) with
+Lemma~\ref{lem:osc} gives $\Delta(u)\ge K_N^{-1}(0.149-0.02)$.
+
+(c) Put $y'=y/\norm y$. By Proposition~\ref{prop:states}(iii),
+$\norm{v/\norm v-y'}\le10^{-3}$, so Lemma~\ref{lem:confine} with $\vartheta=10^{-3}$ gives
+$\norm{u-v}^2\le13\tau(v)+0.008\le0.01$, using (b) and $\beta\le\sigma/400$. Now apply (d)
+and $\Delta(u)=\tau(u)$.
+\end{proof}
+
+\section{The states are reachable}\label{sec:reach}
+
+The argument of \cite{E} for Claim (C) makes no use of how the state $v'$ was reached, so
+Theorem~\ref{thm:main} already shows that it is not valid. One may still ask whether the
+bookkeeping of the MC could keep the construction away from such states. The MC proceeds by
+steps
+\begin{equation}\label{eq:step}
+y_{n+1}=y_n+\sum_{j\ge0}r_jT^jy_n
+\end{equation}
+\textup{(\cite{E}, (13))}, chosen so that the defect decreases \textup{(31)}, the quantities
+$\norm{x_0-v}^2$ and $\ip{Rx_0}{x_0}$ change by at most a multiple of the decrease
+\textup{(32), (45)}, and the leading coefficient stays dominant with the tail bounded below
+\textup{(33)}. Apart from the remark that the degrees $j$ involved are bounded by a function
+of the defect \textup{(after (34))}, no further rule is given. The next theorem shows that the
+requirements \textup{(31)--(33)} and \textup{(45)} do not exclude the states of
+Theorem~\ref{thm:main}.
+
+\begin{theorem}\label{thm:path}
+Let $t_0$ be small and $x_0$ as in Lemma~\ref{lem:x0}. For every $\eta>0$ and $\tau_*>0$ there
+are $n$ and vectors $y^0,y^1,\dots,y^n$, with extremal images $v^i$ of $y^i$ and defects
+$\tau_i=\tau(v^i)$, such that:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $y^0=y_0=\frac{\sqrt3}2u_0$ and $v^0=v_0$, the extremal image of Lemma~\ref{lem:x0};
+\item each step is of the form \eqref{eq:step}:
+$y^{i+1}=y^i+\sum_jr^{(i)}_jT^jy^i$ with $\sum_j\abs{r^{(i)}_j}<\infty$; and
+$\norm{y^{i+1}-y^i}\le\eta$, $\norm{v^{i+1}-v^i}\le\eta$;
+\item every $v^i$ is admissible;
+\item $\tau_0>\tau_1>\dots>\tau_n$ and $\tau_n<\tau_*$;
+\item $\bigl|\norm{x_0-v^i}^2-\norm{x_0-v^0}^2\bigr|\le\eta\tau_0$ for all $i$, and
+$\bigl|\norm{x_0-v^{i+1}}^2-\norm{x_0-v^i}^2\bigr|\le\tau_i-\tau_{i+1}$ for each step; so
+in each step $\norm{x_0-v}^2$ and $\ip{Rx_0}{x_0}=\norm{x_0-v}^2+\tau(v)$ change by at most
+twice the decrease of the defect, and $\ip{Rx_0}{x_0}$ varies by at most $2\tau_0$ along the
+chain;
+\item the conclusion of Theorem~\ref{thm:main}(c) holds for $(y,v)=(y^n,v^n)$, with
+$\frac1{20}$ in place of $\frac1{10}$ and some $\alpha\in[1.45,1.54]$, $N\in\N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+\emph{Step 1: a path of explicit states.} We first check that $D(\beta)\le D(\sigma)
+=\varepsilon_0^2$ for $\beta\le\sigma$. On $[0,\sigma]$ we have $x_0(1-g_\sigma)=h$ by
+Proposition~\ref{prop:states}. As $L$ is increasing, $0\le g_\sigma-g_\beta\le
+6t_0\,\sigma(\sigma-\beta)$ on $[0,\beta]$, so $x_0(1-g_\beta)\le h(1+7t_0\sigma(\sigma-\beta))$
+and $D(\beta)\le\beta h^2(1+15t_0\sigma(\sigma-\beta))\le\sigma h^2$. Also
+$D(\beta)\ge(1-12t_0)m(\beta)$ and $m(\beta)\le\frac12$. Hence
+\[
+\Phi(\beta):=\frac{\varepsilon_0^2-D(\beta)}{1-m(\beta)}\in\bigl[0,\ \varepsilon_0^2+12t_0\bigr]
+\subset[0,0.253],
+\]
+$\Phi$ is continuous, $\Phi(\sigma)=0$ and $\Phi(\beta)\to\varepsilon_0^2$ as $\beta\to0$.
+Since $J_0$ is strictly decreasing on $[0,\alpha_{\max}]$ with
+$\frac12(1-J_0(\alpha_{\max}))>0.255$, there is a unique continuous
+$\alpha:(0,\sigma]\to[0,\alpha_{\max})$ with
+$\frac12(1-J_0(\alpha(\beta)))=\Phi(\beta)$. Then $\alpha(\sigma)=0$,
+\[
+\varepsilon_\infty^2(\beta,\alpha(\beta))=\varepsilon_0^2\quad\text{for all }\beta ,
+\]
+and $\alpha(\beta)\to\alpha_1$ as $\beta\to0$, where $J_0(\alpha_1)=1-2\varepsilon_0^2$; as
+$\varepsilon_0^2=\frac14+O(t_0^2)$, $\alpha_1\in(1.5,1.54)$.
+
+Fix $\beta_1\le\beta_*$ so small that $2t(\beta_1)<\tau_*$ and
+$\alpha(\beta_1)\in[1.45,1.54]$, and consider the states
+\[
+S_\beta=S(\beta,\alpha(\beta),N),\qquad\beta_1\le\beta\le\sigma ,
+\]
+for a large $N$ to be chosen. Since $t(\beta)\ge t(\beta_1)$ we have
+$\rhoN\le\omega_N/t(\beta_1)$ on the whole path. By Proposition~\ref{prop:states}: $S_\sigma$
+is the state $(\mu y_0,v_0)$; the path is norm-continuous; its defects are
+$\tau(\beta)=t(\beta)(\Lambda(\beta)+\delta)$ with $0\le\delta\le\rhoN^2$, where
+$t(\beta)\Lambda(\beta)$ is strictly increasing in $\beta$; and
+$\bigl|\norm{x_0-v}^2-\varepsilon_0^2\bigr|\le100\rhoN+\phi_N$ along it. Each $S_\beta$ is
+admissible for $N$ large: (A1) by Proposition~\ref{prop:states}(iii) and because
+$\norm{x_0-v}^2$ is close to $\varepsilon_0^2$; (A2)--(A4) by the computations in the proof of
+Theorem~\ref{thm:main}, which used only $\beta\le\sigma$, $\tau\le2t_0$, and
+$\rhoN\le\min(\eta_0,\beta)$.
+
+By the comparisons in the proof of Proposition~\ref{prop:states}, up to an error $O(\rhoN)$
+in norm the states are given by $g_\beta$ on $[0,\beta]$ and by $g_N$ on $(\beta,\kappa]$, and
+$\abs{e^{i\alpha s}-e^{i\alpha's}}\le\abs{\alpha-\alpha'}$. So there is a mesh
+$\sigma=\beta^0>\beta^1>\dots>\beta^n=\beta_1$, independent of $N$, such that for all large
+$N$ consecutive states differ by at most $\eta/4$ in $y$ and in $v$. Let $\gamma>0$ be the
+smallest of the gaps $t(\beta^i)\Lambda(\beta^i)-t(\beta^{i+1})\Lambda(\beta^{i+1})$. Then
+choose $N\ge N_*(\beta_1)$ so large that in addition $t(\beta)\rhoN^2<\gamma/4$ and
+$100\rhoN+\phi_N<\min(\gamma/8,\eta\tau_0/2)$ on the path; then consecutive defects differ by
+more than $\gamma/2$ and consecutive values of $\norm{x_0-v}^2$ by less than $\gamma/4$. The states $S_{\beta^i}$ then have properties (c)--(f), the last
+with constant $\frac1{10}$, and the first of them is $(\mu y_0,v_0)$.
+
+\emph{Step 2: steps of the form \eqref{eq:step}.} Write $S_{\beta^i}=(\mu\tilde y^i,\cdot,
+\cdot,\tilde v^i)$, so $\tilde y^0=y_0$. By Proposition~\ref{prop:states} each
+$F_i=\tilde y^i/y_0$ is a bounded measurable function, bounded away from $0$, with
+$\re F_i>0$. So $\log F_i$ is bounded, and there are polynomials $q_{i,m}$, bounded on
+$[0,\kappa]$ uniformly in $m$, with $q_{i,m}\to\log F_i$ a.e.\ as $m\to\infty$; hence
+$e^{q_{i,m}(T)}y_0\to\tilde y^i$ in norm. Take $q_{0,m}=0$. The vector
+$\tilde y^i$ has the same extremal image as $\mu\tilde y^i$, with Tikhonov parameter
+$t(\beta^i)/\mu^2$. Now all the properties in (c)--(f)
+are stable under small perturbations of the vectors $\tilde y^i$ with these parameters held
+fixed: for fixed $t>0$ the Tikhonov data $a=(V_y^*V_y+t)^{-1}V_y^*x_0$, $v=V_ya$ and $\hb$
+depend norm-continuously on $y$, the conditions (A1)--(A4) and (d), (e) are finitely many
+strict inequalities between continuous functions of these data, and (f) was derived from
+strict inequalities for $\norm{v-v_N^\alpha}$, $\norm{v/\norm v-y/\norm y}$ and $\tau(v)$
+with room to spare. So for $m$ large the vectors $y^i=e^{q_{i,m}(T)}y_0$ have properties
+(a) and (c)--(f), each $y^i$ is non-zero a.e.\ and hence cyclic, and consecutive vectors
+are within $\eta$. Finally
+\[
+y^{i+1}=e^{(q_{i+1,m}-q_{i,m})(T)}y^i ,
+\]
+and $e^{q(T)}=I+\sum_{j\ge0}r_jT^j$ with $\sum_j\abs{r_j}<\infty$ for every polynomial $q$.
+\end{proof}
+
+\begin{remark}\label{rem:path}
+(1) The chain starts at the vector $y_0$ of \cite{E} and at an admissible extremal image of
+it. Along it the defect decreases, the states are admissible, and the distance to $x_0$ is
+constant to within any tolerance, both in total and relative to the decrease of the defect in
+each step; these are the requirements \textup{(31)--(33)} and \textup{(45)} of \cite{E}, the
+upper bound in \textup{(33)} being understood as in the remarks after
+Definition~\ref{def:admissible}. The chain ends at a state where Claim (C) fails.
+
+(2) The vectors $y^i$ are of the form $F(T)y_0$ with $F$ entire and zero-free on
+$[0,\kappa]$. They approximate functions with a moving jump, and the coefficients
+$r^{(i)}_j$ are large even though $\norm{y^{i+1}-y^i}$ is small. In particular the
+degrees of the steps are not bounded in terms of the defect, as \cite{E} envisages after its
+(34). The formulas of \cite{E} for the effect of a step are first-order expansions without
+remainder estimates, and we do not claim that they are accurate for these steps. What
+Theorem~\ref{thm:path} shows is that the conditions which \cite{E} imposes on the
+\emph{states} of the MC do not distinguish this chain from a successful run; whether a
+specific rule for choosing small steps would avoid such states is not something the text of
+\cite{E} allows one to decide.
+
+(3) In the model, $v_0$ lies within $O(t_0)$ of the genuine solution
+$x_0\one_{(\sigma,\kappa]}$, which has defect $0$. The chain moves away from it, to a state
+at distance about $\frac12$ from every vector of defect $0$, while its defect decreases
+monotonically.
+\end{remark}
+
+\section{Discussion}\label{sec:discussion}
+
+\subsection*{What this shows}
+The convergence step of \cite{E} rests on an implication of the form: \emph{type 1 and an
+admissible state with small defect together guarantee that constrained descent steps exist
+all the way to defect $0$.} The model operator satisfies the hypotheses on the operator, the
+states of Theorem~\ref{thm:main} satisfy the hypotheses on the state, and the conclusion is
+false. So the implication is not valid, and with it the proof of norm convergence. Since one
+branch of the type 2 case of \cite{E} ends by invoking the type 1 construction, the argument
+as a whole is incomplete at its central point.
+
+The mechanism is simple. Small defect does not localise: multiplying part of $x_0$ by a
+rapidly oscillating unimodular function makes every pairing $\ip{T^jv}{x_0-v}$ small by
+cancellation, while $v$ stays far from every vector of defect $0$ (which in the model are the
+vectors $x_0\one_S$). The quantities that \cite{E} controls are all of this averaged kind
+and cannot detect the oscillation. And by Lemma~\ref{lem:confine}, the confinement constraint
+can only succeed if the small ball it defines already contains vectors of arbitrarily small
+defect.
+
+\subsection*{Why the test is made in an operator with invariant subspaces}
+Theorem~\ref{thm:nogo}(ii) needs a non-scalar unitary $W$ such that $W$ and $W^*$ are both
+absolutely convergent power series in $T$. A self-adjoint operator has many. An operator
+without invariant subspaces has none: such a $W$ commutes with $T$, and the spectral
+subspaces of a non-scalar unitary commuting with $T$ are invariant under $T$. So our
+states do not exist for a hypothetical counterexample to the invariant subspace problem, and
+we have no information on what the construction would do there.
+
+This limitation cannot be removed by a better example. In \cite{E}, Claim (C) is applied
+repeatedly, with constraints $w_{00},w_{01},\dots$ that confine the states to smaller and
+smaller balls (Lemma~\ref{lem:confine}), and the outcome is a norm-convergent sequence with
+defect tending to $0$, hence a non-cyclic vector. For an operator without invariant subspaces
+this iterated form of the claim is therefore false, and it is the statement from which the
+contradiction is drawn; there is no independent way to examine it in such an operator. A proof
+by contradiction can only be checked by checking the derivation, and a derivation is tested by
+running it in a setting where everything it uses is true. The type 1 argument of \cite{E} uses the absence of
+invariant subspaces in the following places only, and each holds in the model for the vectors
+concerned:
+\begin{itemize}[leftmargin=2em]
+\item the standing reductions, that $T$ is injective with dense range and is not
+invertible (here: Lemma~\ref{lem:model}(i));
+\item the vectors $y_n$ to which the extremal construction is applied are cyclic (here: by
+Proposition~\ref{prop:states} and Theorem~\ref{thm:path});
+\item in the proof of its Lemma~2, an equation $dy=\sum_{j\ge1}c_jT^jy$ with $d\ne0$,
+$\abs{c_j}\le1$ is impossible for every $y\ne0$, in particular for weak limits of the vectors
+considered (here: Lemma~\ref{lem:model}(iii), which holds for all $y\ne0$);
+\item the type 1 inequalities (here: Lemma~\ref{lem:model}(ii)).
+\end{itemize}
+The remaining appeals are of the form ``or else we already have an invariant subspace'',
+which are exits, not hypotheses. So if the derivation of Claim (C) were sound, it would apply
+verbatim in the model, where its conclusion fails. What our result leaves open is whether
+some \emph{other} argument, using the absence of invariant subspaces in an essential and
+quantitative way at this step, could establish continuation. The text of \cite{E} contains no
+such argument, and since in that setting continuation is what yields the theorem, it would
+have to carry the whole weight of the proof.
+
+\subsection*{Other problems}
+Independently of the convergence step, the Main Construction of \cite{E} is specified only to
+first order, with no control of step sizes or of higher-order terms, and the estimate (27) of
+\cite{E} used to prepare its starting state is incorrect. These are discussed in detailed notes
+accompanying this paper, which also give corrected proofs of the parts of \cite{E} that are
+sound.
+
+\subsection*{Formalisation and numerical checks}
+Theorem~\ref{thm:nogo} and the identity in Lemma~\ref{lem:confine} are machine-checked in
+Lean~4 with Mathlib. The results of Sections~\ref{sec:model}--\ref{sec:reach} are proved here
+by hand and are not formalised. The script \texttt{experiments/explicit\_states.py} checks on
+a discretisation that the series \eqref{eq:aj} agrees with the numerically computed extremal
+series (to about $10^{-14}$); this tests the identity of Lemma~\ref{lem:explicit}, at
+frequencies $N$ far below those the estimates require. It also tabulates the defect, distance,
+tail and the vector $e=t^{-3/2}\hb$ along the path of Theorem~\ref{thm:path} in the limit
+$N\to\infty$.
+
+\begin{thebibliography}{9}
+\bibitem{E} P.~H.~Enflo, \emph{On the invariant subspace problem in Hilbert spaces},
+arXiv:2305.15442v2 (2024).
+\bibitem{CP} I.~Chalendar and J.~R.~Partington, \emph{Recent perspectives on the Invariant
+Subspace Problem}, arXiv:2507.21834.
+\end{thebibliography}
+
+\end{document}
